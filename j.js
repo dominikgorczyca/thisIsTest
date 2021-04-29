@@ -208,7 +208,7 @@ function makeLevel() {
 
         if (gameArray[i] > 25) {
             element.className = "blank"
-            for (let j = 0; j < characters.length; j++) {
+            for (let j = 0; j < 2; j++) {
                 let character = document.createElement("DIV");
                 character.className = characters[j].name;
                 element.append(character);
@@ -242,7 +242,7 @@ function setStartingProperties() {
     ghostsEaten = 0;
     scoreElement.innerHTML = "Score " + score;
 
-    for (let i = 0; i < characters.length; i++) {
+    for (let i = 0; i < 2; i++) {
         characters[i].progress = 0;
         characters[i].position = startingPositions[i];
         characters[i].direction = i < 2 ? "ArrowLeft" : characters[i].directionList[0];
@@ -250,8 +250,6 @@ function setStartingProperties() {
         characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
         characters[i].mode = "normal";
         characters[i].status = "normal";
-        characters[i].characterNode.removeEventListener("animationiteration", animationIteration);
-        characters[i].characterNode.removeEventListener("animationend", animationEnd);
 
         if (i == 0) {
             root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
@@ -264,11 +262,6 @@ function setStartingProperties() {
 
     setTimeout(() => {
         window.addEventListener("keydown", getDirection);
-
-        for (let i = 2; i < 5; i++) {
-            characters[i].animationLength = 200;
-            characters[i].characterNode.classList.add(`${characters[i].name}-revive`);
-        }
         start.style.display = "none";
 
         getSprite(0);
@@ -276,9 +269,9 @@ function setStartingProperties() {
 }
 //Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
 function transformStartingElements() {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 2; i++) {
         if (i == 1) {
-            for (let j = 1; j < 5; j++) {
+            for (let j = 1; j < 2; j++) {
                 elements[startingPositions[i]].children[j].style.transform = "translateX(-1rem)";
             }
         } else {
@@ -301,7 +294,7 @@ function checkCollisions() {
     let yellowTranslateX = yellowTransform.e;
     let yellowTranslateY = yellowTransform.f;
 
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < 2; i++) {
         //soundtrack is so there aren't multiple gameOver if few ghosts hit pacman
         if (characters[0].status == "freeze") {
             clearInterval(collisionInterval)
@@ -612,7 +605,7 @@ async function changePosition(i) {
     characterMove(i)
 }
 function eatPoint(i) {
-    const point = elements[characters[i].position].children[5];
+    const point = elements[characters[i].position].children[2];
 
     if (point != undefined) {
         points++;
@@ -643,62 +636,13 @@ function eatPoint(i) {
     }
 }
 function changeGhostDirections() {
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < 2; i++) {
         if (characters[i].mode == "normal" &&
             !characters[i].characterNode.className.includes("revive")) {
             characters[i].directionOld = characters[i].direction;
             characters[i].direction = oppositeDirection[characters[i].direction];
         }
     }
-}
-//revive animation progress
-function ghostRevive(i) {
-    characters[i].progress = 1;
-    getSprite(i);
-
-    characters[i].characterNode.addEventListener("animationiteration", animationIteration);
-    characters[i].characterNode.addEventListener("animationend", animationEnd);
-}
-function animationIteration (event) {
-    let i;
-    for(let j = 1; j < 5; j++) {
-        if(event.animationName == characters[j].name) {
-            i = j;
-            break;
-        }
-    }
-    characters[i].direction = characters[i].directionList[characters[i].progress];
-    getSprite(i);
-    characters[i].progress++;
-    if (characters[i].progress != characters[i].directionList.length && newLevel == undefined) {
-        if (characters[0].status == "freeze") {
-            characters[i].characterNode.style.animationPlayState = "paused";
-        }
-    }
-}
-function animationEnd (event) {
-    //there are two animations but I need to catch only one so I am filtering out the the long
-    if(event.animationName.length > 6) {
-        return;
-    }
-    let i;
-
-    for(let j = 1; j < 5; j++) {
-        if(event.animationName == characters[j].name) {
-            i = j;
-            break;
-        }
-    }
-    characters[i].characterNode.removeEventListener("animationiteration", animationIteration);
-    characters[i].characterNode.removeEventListener("animationend", animationEnd);
-    characters[i].characterNode.classList.remove(`${characters[i].name}-visible`, `${characters[i].name}-revive`)
-    characters[i].position = 322;
-    characters[i].characterNode = elements[characters[i].position].children[i];
-    characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
-    characters[i].status = "normal"
-    characters[i].direction = "ArrowLeft"
-    getSprite(i);
-    characterMove(i);
 }
 function getDirection(e) {
     switch (e.key) {
