@@ -2,24 +2,6 @@
   --yellow-sprite-y: -32px;
 }
 
-body {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  margin: 0;
-  background-color: #000000;
-  min-height: 100vh;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  padding: 10px 0;
-}
-
 #game-board {
   width: 560px;
   height: 620px;
@@ -27,10 +9,13 @@ body {
   display: grid;
   -ms-grid-columns: (20px)[28];
       grid-template-columns: repeat(28, 20px);
+  background-color: #000000;
 }
 
 #game-board > * {
   position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   width: 20px;
   height: 20px;
 }

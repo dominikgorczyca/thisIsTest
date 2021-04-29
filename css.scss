@@ -1,21 +1,12 @@
 :root {
     --yellow-sprite-y: -32px;
 }
-body {
-    display: flex;
-    box-sizing: border-box;
-    margin: 0;
-    background-color: #000000;
-    min-height: 100vh;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0;
-}
 #game-board {
     width: 560px;
     height: 620px;
     display: grid;
     grid-template-columns: repeat(28, 20px);
+    background-color: #000000;
 }
 #game-board > * {
     position: relative;
