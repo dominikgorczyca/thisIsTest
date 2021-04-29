@@ -43,7 +43,6 @@ const characters = [{
 {
     name: "red",
     direction: "ArrowLeft",
-    directionOld: undefined,
     position: 322,
     nextPosition: undefined,
     scatterTarget: 27,
@@ -155,10 +154,10 @@ function setStartingProperties() {
             root.setProperty(`--${characters[i].name}-sprite-y`, "0rem")
             characters[i].directionNew = undefined;
         } else {
-            getSprite(i);
+            root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
+            root.setProperty(`--${characters[i].name}-sprite-y`, "-12.8rem")
         }
     }
-    getSprite(0);
 }
 //Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
 function transformStartingElements() {
@@ -183,8 +182,6 @@ function characterMove(i) {
         }, 50)
         return;
     }
-
-    getSprite(i)
     getTransition(i);
     changePosition(i);
 }
@@ -219,7 +216,7 @@ function getYellowDirection(i) {
 }
 function getGhostDirection(i) {
     // so direction won't become undefined if newDirection has no move (like crossing tunnel)
-    let newDirection = characters[i].directionOld = characters[i].direction;
+    let newDirection = characters[i].direction;
     let biggestDistance = 100000;
     let target;
     
@@ -248,22 +245,6 @@ function calculateDistance(target, newGhostPosition) {
     return distanceX ** 2 + distanceY ** 2;
 }
 
-function getSprite(i) {
-    let spriteX;
-    let spriteY;
-    if (i == 0) {
-        spriteX = 3.2;
-        spriteY = yellowSprite[characters[i].direction];
-    } else {
-        if (characters[i].mode == "normal") {
-            spriteX = ghostSprite[characters[i].direction];
-            spriteY = 9.6 + 3.2;
-        }
-    }
-
-    root.setProperty(`--${characters[i].name}-sprite-x`, `-${spriteX}rem`);
-    root.setProperty(`--${characters[i].name}-sprite-y`, `-${spriteY}rem`);
-}
 function getTransition(i) {
     const transitionMove = {
         "ArrowUp": "Y(-2rem)",
