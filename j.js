@@ -193,15 +193,9 @@ function getNewPosition(i) {
         getYellowDirection(i);
 
         // forcing going backwards after changing modes. Without it, turning back is ignored in some situations. 
-    } else if (characters[i].direction != oppositeDirection[characters[i].directionOld]) {
-        if (characters[i].mode == "frightened") {
-            getRandomDirection(i);
-        } else {
-            getGhostDirection(i);
-        }
     } else {
-        characters[i].directionOld = characters[i].direction;
-    }
+        getGhostDirection(i);
+    } 
     let nextPosition = characters[i].position + positionChange[characters[i].direction];
 
     //for going through a tunnel
@@ -228,13 +222,9 @@ function getGhostDirection(i) {
     let newDirection = characters[i].directionOld = characters[i].direction;
     let biggestDistance = 100000;
     let target;
-
-    if (characters[i].mode == "eaten") {
-        target = 322;
-    } else if (ghostMode == "scatter") {
+    
+    if (ghostMode == "scatter") {
         target = characters[i].scatterTarget
-    } else {
-        target = getChaseTarget(i) 
     }
 
     for (let [direction, value] of Object.entries(positionChange)) {
@@ -267,13 +257,7 @@ function getSprite(i) {
     } else {
         if (characters[i].mode == "normal") {
             spriteX = ghostSprite[characters[i].direction];
-            spriteY = 9.6 + 3.2 * i;
-        } else if (characters[i].mode == "frightened") {
-            spriteX = isFrightenedWhite == true ? 32 : 25.6;
-            spriteY = 12.8;
-        } else {
-            spriteX = eatenSprite[characters[i].direction];
-            spriteY = 16;
+            spriteY = 9.6 + 3.2;
         }
     }
 
@@ -281,21 +265,19 @@ function getSprite(i) {
     root.setProperty(`--${characters[i].name}-sprite-y`, `-${spriteY}rem`);
 }
 function getTransition(i) {
-    const isGoingToRespawn = characters[i].mode == "eaten" && characters[i].nextPosition == 322;
     const transitionMove = {
         "ArrowUp": "Y(-2rem)",
         "ArrowDown": "Y(2rem)",
-        "ArrowRight": isGoingToRespawn ? "X(1rem)" : "X(2rem)",
-        "ArrowLeft": isGoingToRespawn ? "X(-3rem)" : "X(-2rem)",
+        "ArrowRight": "X(2rem)",
+        "ArrowLeft": "X(-2rem)",
     }
 
     characters[i].characterNode.style.transform = `translate${transitionMove[characters[i].direction]}`;
 }
 async function changePosition(i) {
     await new Promise(resolve => {
-        if (characters[i].mode != "eaten") {
-            characters[i].characterNode.classList.add(`${characters[i].name}-animation-move`);
-        }
+        characters[i].characterNode.classList.add(`${characters[i].name}-animation-move`);
+        
         characters[i].animationStart = performance.now();
         setTimeout(() => {
             characters[i].characterNode.classList.remove(`${characters[i].name}-animation-move`, `${characters[i].name}-visible`);
