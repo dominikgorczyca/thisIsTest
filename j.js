@@ -141,21 +141,17 @@ function getTransition(i) {
 
     characters[i].characterNode.style.transform = `translate${transitionMove[characters[i].direction]}`;
 }
-async function changePosition(i) {
-    await new Promise(resolve => {
-        characters[i].characterNode.classList.add(`yellow-animation-move`);
+function changePosition(i) {
+    characters[i].characterNode.classList.add(`yellow-animation-move`);
         
-        setTimeout(() => {
-            characters[i].characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
-            characters[i].characterNode.style.transform = "";
-            characters[i].position = characters[i].nextPosition;
-            characters[i].characterNode = elements[characters[i].position].children[i];
-            characters[i].characterNode.classList.add(`yellow-visible`);
-
-            resolve("")
-        }, 200)
-
-    })
-    characterMove(i)
+    setTimeout(() => {
+        characters[i].characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
+        characters[i].characterNode.style.transform = "";
+        characters[i].position = characters[i].nextPosition;
+        characters[i].characterNode = elements[characters[i].position].children[i];
+        characters[i].characterNode.classList.add(`yellow-visible`);
+        characterMove(i)
+    }, 200)
+    
 }
                        
