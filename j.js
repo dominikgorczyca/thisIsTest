@@ -68,7 +68,6 @@ let collisionInterval;
 let ghostMode;
 let ghostModeInterval;
 let changingBackInterval
-let newLevel = true;
 let gameStartLength = 4200;
 let whichMunch = 1;
 
@@ -81,9 +80,7 @@ function startGame() {
 }
 
 function startLevel() {
-    if (newLevel == true) {
-        makeLevel();
-    }
+    makeLevel();
     setStartingProperties();
     setTimeout(() => {
         characterMove(0);
@@ -136,11 +133,6 @@ function makeLevel() {
                 character.className = characters[j].name;
                 element.append(character);
             }
-            if(gameArray[i] / 100 > 1) {
-                let character = document.createElement("DIV");
-                character.className = Math.floor(gameArray[i] / 100) == 1 ? "point" : "big-point";
-                element.append(character);
-            }
         } else {
             element.className = "wall"
             element.style.backgroundPosition = `-${gameArray[i] * 2}rem 0`;
@@ -155,7 +147,6 @@ function makeLevel() {
     transformStartingElements();
 }
 function setStartingProperties() {
-    newLevel = undefined;
     window.addEventListener("keydown", getDirection);
 
     clearTimeout(ghostModeInterval);
@@ -388,23 +379,6 @@ function getChaseTarget(i) {
             }
     }
 }
-function getBlueTarget() {
-    const yellowPosition = characters[0].position + positionChange[characters[0].direction];
-    const yellowRedDistanceX = yellowPosition % 28 - characters[1].position % 28;
-    const yellowRedDistanceY = ~~(yellowPosition / 28) - ~~(characters[1].position / 28);
-
-    let bluePositionX = yellowPosition % 28 + yellowRedDistanceX;
-
-    if (bluePositionX < 0) {
-        bluePositionX = 0;
-    } else if (bluePositionX > 27) {
-        bluePositionX = 27;
-    }
-
-    const bluePositionY = ~~(yellowPosition / 28) + yellowRedDistanceY;
-
-    return bluePositionX + bluePositionY * 28;
-}
 function calculateDistance(target, newGhostPosition) {
     const distanceX = Math.floor(target / 28) - Math.floor(newGhostPosition / 28);
     const distanceY = target % 28 - newGhostPosition % 28;
@@ -493,33 +467,11 @@ async function changePosition(i) {
             characters[i].characterNode = elements[characters[i].position].children[i];
             characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
 
-            if (i == 0) {
-                eatPoint(i);
-            } else if (characters[i].mode == "eaten" && characters[i].position === 322) {
-                ghostRetreat(i);
-            }
-
             resolve("")
         }, characters[i].animationLength)
 
     })
     characterMove(i)
-}
-function eatPoint(i) {
-    const point = elements[characters[i].position].children[2];
-
-    if (point != undefined) {
-        points++;
-        characters[i].mode = "hasEaten";
-        point.remove();
-
-        if (points == 244) {
-            gameWin();
-            freezeCharacters();
-        }
-    } else {
-        characters[i].mode = "normal";
-    }
 }
 function getDirection(e) {
     switch (e.key) {
