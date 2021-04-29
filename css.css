@@ -11,13 +11,10 @@ html {
   font-size: 0.625em;
 }
 
-body, #game {
+body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-
-body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin: 0;
@@ -34,6 +31,9 @@ body {
 }
 
 #game {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;

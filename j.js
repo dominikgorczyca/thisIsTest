@@ -34,7 +34,6 @@ const characters = [{
     directionNew: undefined,
     position: 658,
     nextPosition: undefined,
-    mode: "normal",
     characterNode: undefined,
 },
 {
@@ -42,8 +41,6 @@ const characters = [{
     direction: "ArrowLeft",
     position: 322,
     nextPosition: undefined,
-    scatterTarget: 27,
-    mode: "normal",
     characterNode: undefined,
 },
 ];
@@ -114,7 +111,6 @@ function makeLevel() {
     elements = Array.from(gameBoard.children);
 }
 function setStartingProperties() {
-    ghostMode = "scatter";
 
     for (let i = 0; i < 2; i++) {
         characters[i].progress = 0;
@@ -122,7 +118,6 @@ function setStartingProperties() {
         characters[i].direction = i < 2 ? "ArrowLeft" : characters[i].directionList[0];
         characters[i].characterNode = elements[characters[i].position].children[i];
         characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
-        characters[i].mode = "normal";
         characters[i].characterNode
         characters[i].characterNode.style.transform = "translateX(-1rem)";
 
@@ -156,8 +151,6 @@ function characterMove(i) {
 function getNewPosition(i) {
     if (i == 0) {
         getYellowDirection(i);
-
-        // forcing going backwards after changing modes. Without it, turning back is ignored in some situations. 
     } else {
         getGhostDirection(i);
     } 
@@ -185,15 +178,10 @@ function getYellowDirection(i) {
 function getGhostDirection(i) {
     let newDirection = characters[i].direction;
     let biggestDistance = 100000;
-    let target;
-    
-    if (ghostMode == "scatter") {
-        target = characters[i].scatterTarget
-    }
 
     for (let [direction, value] of Object.entries(positionChange)) {
         const newPosition = characters[i].position + value;
-        const newDistance = calculateDistance(target, newPosition)
+        const newDistance = calculateDistance(27, newPosition)
 
         if (newDistance < biggestDistance) {
             if (!elements[newPosition].classList.contains("wall") &&
