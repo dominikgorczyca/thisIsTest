@@ -35,17 +35,8 @@ const characters = [{
     position: 658,
     nextPosition: undefined,
     characterNode: undefined,
-},
-{
-    name: "red",
-    direction: "ArrowLeft",
-    position: 322,
-    nextPosition: undefined,
-    characterNode: undefined,
-},
-];
+}];
 let elements;
-
 
 window.addEventListener("keydown", getDirection);
 startLevel();
@@ -54,8 +45,6 @@ function startLevel() {
     makeLevel();
     setStartingProperties();
     characterMove(0);
-    characterMove(1);
-
 }
 function makeLevel() {
     const gameArray = [0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 19, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 1,
@@ -96,7 +85,7 @@ function makeLevel() {
 
         if (gameArray[i] > 25) {
             element.className = "blank"
-            for (let j = 0; j < 2; j++) {
+            for (let j = 0; j < 1; j++) {
                 let character = document.createElement("DIV");
                 character.className = characters[j].name;
                 element.append(character);
@@ -112,10 +101,10 @@ function makeLevel() {
 }
 function setStartingProperties() {
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 1; i++) {
         characters[i].progress = 0;
         characters[i].position = startingPositions[i];
-        characters[i].direction = i < 2 ? "ArrowLeft" : characters[i].directionList[0];
+        characters[i].direction = i < 1 ? "ArrowLeft" : characters[i].directionList[0];
         characters[i].characterNode = elements[characters[i].position].children[i];
         characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
         characters[i].characterNode
@@ -125,8 +114,6 @@ function setStartingProperties() {
             root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
             root.setProperty(`--${characters[i].name}-sprite-y`, "0rem")
             characters[i].directionNew = undefined;
-        } else {
-            getSprite(i);
         }
     }
     getSprite(0);
@@ -134,7 +121,6 @@ function setStartingProperties() {
 //Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
 //i - character index
 function characterMove(i) {
-
     characters[i].nextPosition = getNewPosition(i);
 
     if (elements[characters[i].nextPosition].classList.contains("wall")) {

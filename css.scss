@@ -3,8 +3,6 @@
     --yellow-sprite-y: ;
     --red-sprite-x: ;
     --red-sprite-y: ;
-    --yellow-animation-length: 190ms;
-    --red-animation-length: 200ms;
 }
 html {
     font-size: 0.625em;
@@ -63,18 +61,6 @@ body {
     background-color: black;
 }
 
-.wall > * {
-    box-sizing: border-box;
-    background-color: black;
-    display: block;
-    position: relative;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: .2rem solid #161693;
-    border-radius: 80%;
-    z-index: 1;
-}
-
 .gate {
     background-color: #ffb897;
     border-top: .7rem solid black;
@@ -101,22 +87,22 @@ body {
 
 .yellow-visible {
     background-position: var(--yellow-sprite-x) var(--yellow-sprite-y);
-    transition: transform var(--yellow-animation-length) linear;
+    transition: transform 200ms linear;
     z-index: 100;
 }
 
 .red-visible {
     background-position: var(--red-sprite-x) var(--red-sprite-y);
-    transition: transform var(--red-animation-length) linear;
+    transition: transform 200ms linear;
     z-index: 104;
 }
 
 /* Animations */
 .yellow-animation-move {
-    animation: var(--yellow-animation-length) forwards steps(1, end) yellow;
+    animation: 200ms forwards steps(1, end) yellow;
 }
 .red-animation-move {
-    animation: var(--red-animation-length) forwards steps(1, end) red;
+    animation: 200ms forwards steps(1, end) red;
 }
 
 
