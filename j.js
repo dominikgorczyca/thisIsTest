@@ -37,22 +37,18 @@ const characters = [{
     position: 658,
     nextPosition: undefined,
     mode: "normal",
-    status: "normal",
     characterNode: undefined,
-    animationLength: undefined,
     animationStart: undefined,
 },
 {
     name: "red",
     direction: "ArrowLeft",
     directionOld: undefined,
-    position: 38,
+    position: 322,
     nextPosition: undefined,
     scatterTarget: 27,
     mode: "normal",
-    status: "normal",
     characterNode: undefined,
-    animationLength: undefined,
     animationStart: undefined,
 },
 ];
@@ -136,7 +132,7 @@ function makeLevel() {
 
     points = 0;
     //first element is absolute text so we exclude it
-    elements = Array.from(gameBoard.children).splice(1);
+    elements = Array.from(gameBoard.children);
     transformStartingElements();
 }
 function setStartingProperties() {
@@ -153,7 +149,6 @@ function setStartingProperties() {
         characters[i].characterNode = elements[characters[i].position].children[i];
         characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
         characters[i].mode = "normal";
-        characters[i].status = "normal";
 
         if (i == 0) {
             root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
@@ -179,7 +174,6 @@ function transformStartingElements() {
 }
 //i - character index
 function characterMove(i) {
-    if (characters[i].status == "freeze") return;
 
     characters[i].nextPosition = getNewPosition(i);
 
@@ -190,7 +184,6 @@ function characterMove(i) {
         return;
     }
 
-    getAnimationLength(i);
     getSprite(i)
     getTransition(i);
     changePosition(i);
@@ -258,86 +251,13 @@ function getGhostDirection(i) {
     }
     characters[i].direction = newDirection;
 }
-function getRandomDirection(i) {
-    let nextPosition = characters[i].position + positionChange[characters[i].direction];
-
-    if ((characters[i].position == 392 && nextPosition == 391) ||
-        (characters[i].position == 419 && nextPosition == 420)) {
-        return;
-    }
-
-    let newDirection
-    do {
-        const random = ~~(Math.random() * 4);
-        newDirection = Object.keys(positionChange)[random];
-
-        nextPosition = characters[i].position + positionChange[newDirection];
-
-    } while (elements[nextPosition].classList.contains("wall") ||
-        oppositeDirection[newDirection] == characters[i].direction)
-
-    characters[i].direction = newDirection;
-}
-function getChaseTarget(i) {
-    switch (i) {
-        case 1:
-            if(characters[0].position == characters[i].position && !elements[characters[0].nextPosition].classList.contains("wall")) {
-                return characters[0].position + positionChange[characters[0].direction];
-            }
-            return characters[0].position;
-        case 2:
-            return characters[0].position + positionChange[characters[0].direction] * 2;
-        case 3:
-            return getBlueTarget();
-        case 4:
-            const yellowOrangeDistance = calculateDistance(characters[0].position, characters[4].position);
-            if (yellowOrangeDistance < 64) {
-                return 840;
-            } else {
-                return characters[0].position;
-            }
-    }
-}
 function calculateDistance(target, newGhostPosition) {
     const distanceX = Math.floor(target / 28) - Math.floor(newGhostPosition / 28);
     const distanceY = target % 28 - newGhostPosition % 28;
 
     return distanceX ** 2 + distanceY ** 2;
 }
-function getAnimationLength(i) {
-    let animationLength;
-    if (i == 0) {
-        animationLength = characters[i].mode == "hasEaten" ? 210 : 190;
-    } else {
-        const tunnel = [392, 393, 394, 395, 396, 419, 418, 417, 416, 415]
 
-        if (characters[i].mode == "eaten") {
-            if (characters[i].nextPosition === 322) {
-                animationLength = characters[i].direction == "ArrowLeft" ? 25 : 75;
-            } else {
-                animationLength = 50;
-            }
-        } else if (tunnel.includes(characters[i].position) || tunnel.includes(characters[i].nextPosition)) {
-            animationLength = 350;
-            //if it started or it got revived
-        } else if (characters[i].mode == "frightened") {
-            animationLength = 300;
-        } else if (
-            characters[i].direction == characters[i].directionOld ||
-            characters[i].direction == oppositeDirection[characters[i].directionOld]) {
-            animationLength = 200;
-        } else {
-            animationLength = 220;
-        }
-    }
-
-    if (characters[i].characterNode.style.transform == 'translateX(-1rem)') {
-        animationLength /= 1.5;
-    }
-
-    root.setProperty(`--${characters[i].name}-animation-length`, animationLength + "ms");
-    characters[i].animationLength = animationLength;
-}
 function getSprite(i) {
     let spriteX;
     let spriteY;
@@ -378,8 +298,6 @@ async function changePosition(i) {
         }
         characters[i].animationStart = performance.now();
         setTimeout(() => {
-            if (characters[i].status == "freeze") return;
-
             characters[i].characterNode.classList.remove(`${characters[i].name}-animation-move`, `${characters[i].name}-visible`);
             characters[i].characterNode.style.transform = "";
             characters[i].position = characters[i].nextPosition;
@@ -387,7 +305,7 @@ async function changePosition(i) {
             characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
 
             resolve("")
-        }, characters[i].animationLength)
+        }, 200)
 
     })
     characterMove(i)
