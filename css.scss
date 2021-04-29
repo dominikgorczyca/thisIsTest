@@ -4,9 +4,6 @@
     --red-sprite-x: ;
     --red-sprite-y: ;
 }
-html {
-    font-size: 0.625em;
-}
 
 body {
     display: flex;
@@ -16,112 +13,69 @@ body {
     min-height: 100vh;
     align-items: center;
     justify-content: center;
-    padding: 1em 0;
-    font-family: "joystick", Arial, sans-serif;
+    padding: 10px 0;
 }
 #game-board {
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
-    width: 56rem;
-    height: 62rem;
+    width: 560px;
+    height: 620px;
     display: grid;
-    grid-template-columns: repeat(28, 2rem);
+    grid-template-columns: repeat(28, 20px);
 }
 /* GAME BOARD GENERAL */
 
 #game-board > * {
     position: relative;
     box-sizing: border-box;
-    width: 2rem;
-    height: 2rem;
-}
-
-#start, #game-start {
-    position: absolute;
-    margin: auto;
-    width: 100%;
-    top: 54%;
-    text-align: center;
-    color: yellow;
-    font-size: 2.4rem;
-    z-index: 1;
-    user-select: none;
+    width: 20px;
+    height: 20px;
 }
 
 /* OBJECTS AND WALLS  */
 .wall {
-    box-sizing: border-box;
     overflow: hidden;
     background-image: url("map.png");
-    z-index: 1;
 }
 
 .blank {
     background-color: black;
 }
-
-.gate {
-    background-color: #ffb897;
-    border-top: .7rem solid black;
-    border-bottom: .7rem solid black;
-}
-
 /* CHARACTERS */
-.yellow,
-.red {
+.yellow {
     image-rendering: pixelated;
     position: absolute;
-    top: -0.4rem;
-    left: -0.55rem;
-    width: 3rem;
-    height: 2.8rem;
+    top: -4px;
+    left: -5.5px;
+    width: 30px;
+    height: 28px;
+    z-index: 100;
 }
 
-.yellow-visible,
-.red-visible {
+.yellow-visible {
     background-image: url("sprites.png");
-    z-index: 101;
     will-change: transform background-position;
 }
 
 .yellow-visible {
-    background-position: var(--yellow-sprite-x) var(--yellow-sprite-y);
+    background-position: 32px var(--yellow-sprite-y);
     transition: transform 200ms linear;
-    z-index: 100;
-}
-
-.red-visible {
-    background-position: var(--red-sprite-x) var(--red-sprite-y);
-    transition: transform 200ms linear;
-    z-index: 104;
 }
 
 /* Animations */
 .yellow-animation-move {
     animation: 200ms forwards steps(1, end) yellow;
 }
-.red-animation-move {
-    animation: 200ms forwards steps(1, end) red;
-}
-
 
 @keyframes yellow {
     0%, 70%, 100% {
-        background-position: -3.2rem var(--yellow-sprite-y);
+        background-position: -32px var(--yellow-sprite-y);
     }
     30% {
-        background-position:  0rem var(--yellow-sprite-y);
+        background-position:  0px var(--yellow-sprite-y);
     }
     80% {
-        background-position: -6.4rem 0rem;
-    }
-}
-@keyframes red {
-    0%, 100% {
-        background-position: var(--red-sprite-x) var(--red-sprite-y);
-    }
-    50% {
-        background-position: calc(var(--red-sprite-x) - 3.2rem) var(--red-sprite-y);
+        background-position: -64px 0px;
     }
 }

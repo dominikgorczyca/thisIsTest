@@ -5,10 +5,6 @@
   --red-sprite-y: ;
 }
 
-html {
-  font-size: 0.625em;
-}
-
 body {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -24,8 +20,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 1em 0;
-  font-family: "joystick", Arial, sans-serif;
+  padding: 10px 0;
 }
 
 #game-board {
@@ -33,12 +28,12 @@ body {
   overflow: hidden;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  width: 56rem;
-  height: 62rem;
+  width: 560px;
+  height: 620px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (2rem)[28];
-      grid-template-columns: repeat(28, 2rem);
+  -ms-grid-columns: (20px)[28];
+      grid-template-columns: repeat(28, 20px);
 }
 
 /* GAME BOARD GENERAL */
@@ -46,63 +41,37 @@ body {
   position: relative;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  width: 2rem;
-  height: 2rem;
-}
-
-#start, #game-start {
-  position: absolute;
-  margin: auto;
-  width: 100%;
-  top: 54%;
-  text-align: center;
-  color: yellow;
-  font-size: 2.4rem;
-  z-index: 1;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  width: 20px;
+  height: 20px;
 }
 
 /* OBJECTS AND WALLS  */
 .wall {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   overflow: hidden;
   background-image: url("map.png");
-  z-index: 1;
 }
 
 .blank {
   background-color: black;
 }
 
-.gate {
-  background-color: #ffb897;
-  border-top: .7rem solid black;
-  border-bottom: .7rem solid black;
-}
-
 /* CHARACTERS */
-.yellow,
-.red {
+.yellow {
   -ms-interpolation-mode: nearest-neighbor;
       image-rendering: -webkit-optimize-contrast;
       image-rendering: -moz-crisp-edges;
       image-rendering: -o-pixelated;
       image-rendering: pixelated;
   position: absolute;
-  top: -0.4rem;
-  left: -0.55rem;
-  width: 3rem;
-  height: 2.8rem;
+  top: -4px;
+  left: -5.5px;
+  width: 30px;
+  height: 28px;
+  z-index: 100;
 }
 
-.yellow-visible,
-.red-visible {
+.yellow-visible {
   background-image: url("sprites.png");
-  z-index: 101;
   will-change: transform background-position;
 }
 
@@ -112,16 +81,6 @@ body {
   transition: -webkit-transform 200ms linear;
   transition: transform 200ms linear;
   transition: transform 200ms linear, -webkit-transform 200ms linear;
-  z-index: 100;
-}
-
-.red-visible {
-  background-position: var(--red-sprite-x) var(--red-sprite-y);
-  -webkit-transition: -webkit-transform 200ms linear;
-  transition: -webkit-transform 200ms linear;
-  transition: transform 200ms linear;
-  transition: transform 200ms linear, -webkit-transform 200ms linear;
-  z-index: 104;
 }
 
 /* Animations */
@@ -137,25 +96,25 @@ body {
 
 @-webkit-keyframes yellow {
   0%, 70%, 100% {
-    background-position: -3.2rem var(--yellow-sprite-y);
+    background-position: -32px var(--yellow-sprite-y);
   }
   30% {
-    background-position: 0rem var(--yellow-sprite-y);
+    background-position: 0px var(--yellow-sprite-y);
   }
   80% {
-    background-position: -6.4rem 0rem;
+    background-position: -64px 0px;
   }
 }
 
 @keyframes yellow {
   0%, 70%, 100% {
-    background-position: -3.2rem var(--yellow-sprite-y);
+    background-position: -32px var(--yellow-sprite-y);
   }
   30% {
-    background-position: 0rem var(--yellow-sprite-y);
+    background-position: 0px var(--yellow-sprite-y);
   }
   80% {
-    background-position: -6.4rem 0rem;
+    background-position: -64px 0px;
   }
 }
 
@@ -164,7 +123,7 @@ body {
     background-position: var(--red-sprite-x) var(--red-sprite-y);
   }
   50% {
-    background-position: calc(var(--red-sprite-x) - 3.2rem) var(--red-sprite-y);
+    background-position: calc(var(--red-sprite-x) - 32px) var(--red-sprite-y);
   }
 }
 
@@ -173,7 +132,7 @@ body {
     background-position: var(--red-sprite-x) var(--red-sprite-y);
   }
   50% {
-    background-position: calc(var(--red-sprite-x) - 3.2rem) var(--red-sprite-y);
+    background-position: calc(var(--red-sprite-x) - 32px) var(--red-sprite-y);
   }
 }
 /*# sourceMappingURL=css.css.map */

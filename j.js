@@ -18,15 +18,9 @@ const oppositeDirection = {
 }
 const yellowSprite = {
     "ArrowRight": 0,
-    "ArrowLeft": 3.2,
-    "ArrowUp": 6.4,
-    "ArrowDown": 9.6,
-}
-const ghostSprite = {
-    "ArrowRight": 0,
-    "ArrowLeft": 6.4,
-    "ArrowUp": 12.8,
-    "ArrowDown": 19.2,
+    "ArrowLeft": 32,
+    "ArrowUp": 64,
+    "ArrowDown": 96,
 }
 const characters = [{
     name: "yellow",
@@ -92,7 +86,7 @@ function makeLevel() {
             }
         } else {
             element.className = "wall"
-            element.style.backgroundPosition = `-${gameArray[i] * 2}rem 0`;
+            element.style.backgroundPosition = `-${gameArray[i] * 20}px 0`;
         }
 
         gameBoard.append(element);
@@ -108,11 +102,11 @@ function setStartingProperties() {
         characters[i].characterNode = elements[characters[i].position].children[i];
         characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
         characters[i].characterNode
-        characters[i].characterNode.style.transform = "translateX(-1rem)";
+        characters[i].characterNode.style.transform = "translateX(-10px)";
 
         if (i == 0) {
-            root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
-            root.setProperty(`--${characters[i].name}-sprite-y`, "0rem")
+            root.setProperty(`--${characters[i].name}-sprite-x`, "-6.40px")
+            root.setProperty(`--${characters[i].name}-sprite-y`, "00px")
             characters[i].directionNew = undefined;
         }
     }
@@ -135,19 +129,9 @@ function characterMove(i) {
     changePosition(i);
 }
 function getNewPosition(i) {
-    if (i == 0) {
-        getYellowDirection(i);
-    } else {
-        getGhostDirection(i);
-    } 
+    getYellowDirection(i);
     let nextPosition = characters[i].position + positionChange[characters[i].direction];
 
-    //for going through a tunnel
-    if (characters[i].position == 392 && nextPosition == 391) {
-        nextPosition = 419;
-    } else if (characters[i].position == 419 && nextPosition == 420) {
-        nextPosition = 392;
-    }
 
     return nextPosition;
 }
@@ -161,50 +145,18 @@ function getYellowDirection(i) {
         }
     }
 }
-function getGhostDirection(i) {
-    let newDirection = characters[i].direction;
-    let biggestDistance = 100000;
-
-    for (let [direction, value] of Object.entries(positionChange)) {
-        const newPosition = characters[i].position + value;
-        const newDistance = calculateDistance(27, newPosition)
-
-        if (newDistance < biggestDistance) {
-            if (!elements[newPosition].classList.contains("wall") &&
-                oppositeDirection[direction] != characters[i].direction) {
-                biggestDistance = newDistance;
-                newDirection = direction;
-            }
-        }
-    }
-    characters[i].direction = newDirection;
-}
-function calculateDistance(target, newGhostPosition) {
-    const distanceX = Math.floor(target / 28) - Math.floor(newGhostPosition / 28);
-    const distanceY = target % 28 - newGhostPosition % 28;
-
-    return distanceX ** 2 + distanceY ** 2;
-}
 function getSprite(i) {
-    let spriteX;
-    let spriteY;
-    if (i == 0) {
-        spriteX = 3.2;
-        spriteY = yellowSprite[characters[i].direction];
-    } else {
-        spriteX = ghostSprite[characters[i].direction];
-        spriteY = 9.6 + 3.2;
-    }
+    let spriteX = 32;
+    let spriteY = yellowSprite[characters[i].direction];
 
-    root.setProperty(`--${characters[i].name}-sprite-x`, `-${spriteX}rem`);
-    root.setProperty(`--${characters[i].name}-sprite-y`, `-${spriteY}rem`);
+    root.setProperty(`--${characters[i].name}-sprite-y`, `-${spriteY}px`);
 }
 function getTransition(i) {
     const transitionMove = {
-        "ArrowUp": "Y(-2rem)",
-        "ArrowDown": "Y(2rem)",
-        "ArrowRight": "X(2rem)",
-        "ArrowLeft": "X(-2rem)",
+        "ArrowUp": "Y(-20px)",
+        "ArrowDown": "Y(20px)",
+        "ArrowRight": "X(20px)",
+        "ArrowLeft": "X(-20px)",
     }
 
     characters[i].characterNode.style.transform = `translate${transitionMove[characters[i].direction]}`;
