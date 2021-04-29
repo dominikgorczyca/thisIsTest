@@ -1,7 +1,6 @@
 'use strict';
 const game = document.getElementById("game");
 const gameBoard = document.getElementById("game-board");
-const gameStart = document.getElementById('game-start')
 const start = document.getElementById("start");
 const scoreElement = document.getElementById("score");
 const lives = document.getElementById("lives");
@@ -136,7 +135,6 @@ let whichMunch = 1;
 document.addEventListener("click", startGame); 
 
 function startGame() {
-    gameStart.style.display = "none";
     game.style.display = "block ";
     startLevel();
     document.removeEventListener("click", startGame)
@@ -651,50 +649,6 @@ function eatPoint(i) {
         }
     }
 }
-function makeGhostsScared() {
-    soundtrack.src = "https://dominikgorczyca.github.io/Pac-Man/audio/power_pellet.wav";
-    soundtrack.play();
-    clearInterval(changingBackInterval);
-    isFrightenedWhite = false;
-    ghostsEaten = 0;
-    changeGhostDirections();
-    for (let i = 0; i < 5; i++) {
-        if (characters[i].mode != "eaten") {
-            characters[i].mode = "frightened";
-            getSprite(i);
-        }
-    }
-    setTimeout(() => {
-        let intervalCount = 1;
-        changingBackInterval = setInterval(() => {
-            if (characters[0].status == "freeze") {
-                return;
-            }
-            if (intervalCount == 10) {
-                clearInterval(changingBackInterval);
-                if(!soundtrack.src.includes("retreating")) {
-                    soundtrack.src = "https://dominikgorczyca.github.io/Pac-Man/audio/siren1.wav";
-                    soundtrack.play();
-                }
-                for (let i = 0; i < characters.length; i++) {
-                    if (characters[i].mode != "eaten") {
-                        characters[i].mode = "normal";
-                    }
-                }
-            }
-            if (intervalCount % 2 == 1) {
-                isFrightenedWhite = true;
-            } else {
-                isFrightenedWhite = false;
-            }
-
-            for (let i = 0; i < 5; i++) {
-                getSprite(i);
-            }
-            intervalCount++;
-        }, 300)
-    }, 2100)
-}
 function changeGhostDirections() {
     for (let i = 1; i < 5; i++) {
         if (characters[i].mode == "normal" &&
@@ -703,83 +657,6 @@ function changeGhostDirections() {
             characters[i].direction = oppositeDirection[characters[i].direction];
         }
     }
-}
-function gameFreeze(i) {
-    sound.src = "https://dominikgorczyca.github.io/Pac-Man/audio/eat_ghost.wav";
-    sound.play();
-    const animationStop = performance.now();
-    stopAnimations("stop");
-    clearTimeout(ghostModeInterval);
-
-    characters[i].mode = "eaten";
-    characters[0].characterNode.classList.remove(`yellow-visible`);
-    characters[i].characterNode.classList.remove(`${characters[i].name}-animation-move`);
-    root.setProperty(`--${characters[i].name}-sprite-x`, `-${(ghostsEaten * 32) / 10}rem`);
-    root.setProperty(`--${characters[i].name}-sprite-y`, "-25.6rem")
-
-    for (let j = 0; j < 5; j++) {
-        characters[j].animationLength = characters[j].animationLength - (animationStop - characters[j].animationStart);
-        if (j == i) {
-            characters[j].animationLength /= 6;
-        }
-        root.setProperty(`--${characters[j].name}-animation-length`, `${characters[j].animationLength}ms`);
-    }
-
-    setTimeout(() => {
-        soundtrack.src = "https://dominikgorczyca.github.io/Pac-Man/audio/retreating.wav";
-        soundtrack.play();
-        characters[0].characterNode.classList.add(`yellow-visible`);
-        getSprite(i);
-
-        for (let j = 0; j < 5; j++) {
-            characters[j].characterNode.style.removeProperty("transition");
-            if (characters[j].status == "freeze") {
-                characters[j].status = "normal";
-
-                if (!characters[j].characterNode.className.includes(`revive`)) {
-                    if (j == 0 && elements[characters[j].nextPosition].classList.contains("wall")) {
-                        characterMove(j);
-                    } else {
-                        getTransition(j);
-                        changePosition(j);
-                    }
-
-                }
-                characters[j].characterNode.style.animationPlayState = "running";
-            }
-        }
-        collisionInterval = setInterval(checkCollisions, 10);
-        ghostModeInterval = setTimeout(changeModes, 5000);
-    }, 1000)
-    ghostsEaten++;
-    score += 2 ** ghostsEaten * 100;
-    scoreElement.innerHTML = "Score " + score;
-}
-function ghostRetreat(i) {
-    characters[i].status = "freeze";
-    characters[i].characterNode.classList.add(`${characters[i].name}-retreat`)
-
-    setTimeout(() => {
-        if(characters.some(char => char.mode == "frightened")) {
-            soundtrack.src = "https://dominikgorczyca.github.io/Pac-Man/audio/power_pellet.wav";
-        } else {
-            soundtrack.src = "https://dominikgorczyca.github.io/Pac-Man/audio/siren1.wav";
-        }
-        soundtrack.play()
-        characters[i].position = i == 1 ? 406 : startingPositions[i]
-        characters[i].characterNode.classList.remove(`${characters[i].name}-visible`, `${characters[i].name}-animation-move`, `${characters[i].name}-retreat`);
-        characters[i].characterNode.style.transform = "translateX(-1rem)";
-        characters[i].characterNode = elements[characters[i].position].children[i];
-        characters[i].animationLength = 200;
-        characters[i].characterNode.classList.add(`${characters[i].name}-visible`, `${characters[i].name}-revive`)
-        characters[i].mode = "normal";
-        characters[i].animationLength = 200;
-        characters[i].progress = 0;
-        characters[i].direction = characters[i].directionList[characters[i].progress];
-        getSprite(i);
-        ghostRevive(i);
-       
-    }, i > 2 ? 250 : 150)
 }
 //revive animation progress
 function ghostRevive(i) {
@@ -829,98 +706,6 @@ function animationEnd (event) {
     characters[i].direction = "ArrowLeft"
     getSprite(i);
     characterMove(i);
-}
-function gameOver() {
-    stopAnimations();
-    setTimeout(() => {
-        for (let i = 1; i < 5; i++) {
-            characters[i].characterNode.classList.remove(`${characters[i].name}-visible`);
-        }
-
-        characters[0].characterNode.classList.add("yellow-death-animation");
-        sound.src = "https://dominikgorczyca.github.io/Pac-Man/audio/death_1.wav";
-        sound.play();
-        setTimeout(() => {
-            sound.src = "https://dominikgorczyca.github.io/Pac-Man/audio/death_2.wav";
-            sound.play();
-        }, 1400)
-
-        if (livesLost == 3) {
-            newLevel = true;
-            setTimeout(() => {
-                start.innerHTML = "Game&nbsp; Over";
-                start.style.display = "block";
-                start.style.color = "red";
-
-                setTimeout(() => {
-                    start.style.display = "none";
-                    start.style.color = "yellow";
-                    start.innerHTML = "READY!";
-
-                    hardReset();
-                    deleteGameBoard();
-                    game.style.visibility = "hidden";
-
-                    setTimeout(startLevel, 500)
-                }, 1500)
-            }, 1500)
-        } else {
-            newLevel = false;
-            gameStartLength = 2000;
-            setTimeout(() => {
-
-                game.style.visibility = "hidden";
-                deleteClasses();
-                setTimeout(startLevel, 500)
-            }, 2000)
-        }
-    }, 1000)
-
-}
-function gameWin() {
-    stopAnimations();
-    newLevel = true;
-    sound.src = "https://dominikgorczyca.github.io/Pac-Man/audio/extend.wav";
-    sound.play();
-
-    setTimeout(() => {
-        for (let element of elements) {
-            if (element.classList.contains("wall")) {
-                element.classList.add("blinking-animation")
-                element.style.backgroundColor = "black";
-
-            } else if (element.classList.contains("wall-empty")) {
-                element.classList.add("blinking-animation-corner")
-            }
-        }
-        setTimeout(() => {
-            game.style.visibility = "hidden";
-            deleteGameBoard();
-            setTimeout(startLevel, 500)
-        }, 1500)
-    }, 2000)
-}
-function stopAnimations(stop) {
-    freezeCharacters(stop);
-    for (let i = 0; i < 5; i++) {
-        const characterTransform = new WebKitCSSMatrix(getComputedStyle(characters[i].characterNode).transform);
-
-        if (stop == "stop" && characters[i].mode == "eaten") {
-            continue;
-        }
-        characters[i].characterNode.style.transition = `none`
-        characters[i].characterNode.style.transform = `translate(${parseInt(characterTransform.e)}px, ${parseInt(characterTransform.f)}px)`;
-        if (stop != "stop") {
-            soundtrack.pause();
-            sound.pause();
-            if (i != 0) {
-                characters[i].characterNode.style.animationPlayState = "paused";
-            }
-            characters[i].characterNode.classList.remove(`${characters[i].name}-animation-move`);
-        } else {
-            characters[i].characterNode.style.animationPlayState = "paused";
-        }
-    }
 }
 function deleteGameBoard() {
     for (let element of elements) {
