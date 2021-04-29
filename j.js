@@ -30,12 +30,6 @@ const ghostSprite = {
     "ArrowUp": 12.8,
     "ArrowDown": 19.2,
 }
-const eatenSprite = {
-    "ArrowRight": 25.6,
-    "ArrowLeft": 28.8,
-    "ArrowUp": 32,
-    "ArrowDown": 35.2,
-}
 const characters = [{
     name: "yellow",
     direction: "ArrowLeft",
@@ -86,7 +80,6 @@ function startLevel() {
         characterMove(0);
         characterMove(1);
 
-        collisionInterval = setInterval(checkCollisions, 10)
     }, 100)
 }
 function makeLevel() {
@@ -181,80 +174,6 @@ function transformStartingElements() {
             }
         } else {
             elements[startingPositions[i]].children[i].style.transform = "translateX(-1rem)";
-        }
-    }
-}
-function checkCollisions() {
-    const yellowTransform = new WebKitCSSMatrix(getComputedStyle(characters[0].characterNode).transform);
-    let yellowTranslateX = yellowTransform.e;
-    let yellowTranslateY = yellowTransform.f;
-
-    for (let i = 1; i < 2; i++) {
-        
-        if (characters[0].status == "freeze") {
-            clearInterval(collisionInterval)
-            return;
-        }
-
-        const distance = calculateDistance(characters[0].position, characters[i].position)
-
-        const ghostTransform = new WebKitCSSMatrix(getComputedStyle(characters[i].characterNode).transform);
-        let ghostTranslateX = ghostTransform.e;
-        let ghostTranslateY = ghostTransform.f;
-
-        let requirement;
-        let yellowNewPosition;
-        let ghostNewPosition;
-
-        if(distance == 0) {
-           requirement -30;
-           yellowNewPosition = characters[0].position + positionChange[characters[0].direction] + oppositeDirection[positionChange[characters[i].direction]];
-           ghostNewPosition = characters[i].position + positionChange[characters[i].direction] + oppositeDirection[positionChange[characters[0].direction]]; 
-        }
-        if (distance == 1) {
-            requirement = 10;
-            yellowNewPosition = characters[0].position + positionChange[characters[0].direction];
-            ghostNewPosition = characters[i].position + positionChange[characters[i].direction];
-        } else if (distance == 4) {
-            requirement = 30;
-            yellowNewPosition = characters[0].position + positionChange[characters[0].direction] * 2;
-            ghostNewPosition = characters[i].position + positionChange[characters[i].direction] * 2;
-        } else if (distance == 2) {
-            requirement = 25;
-            yellowNewPosition = characters[0].position + positionChange[characters[0].direction] + positionChange[oppositeDirection[characters[i].direction]];
-            ghostNewPosition = characters[i].position + positionChange[characters[i].direction] + positionChange[oppositeDirection[characters[0].direction]];
-        } else if (distance != 0) {
-            continue;
-        }
-        if(window.innerWidth < 600 || window.innerHeight < 700) {
-            requirement /= 2;
-        }
-
-
-        if (yellowNewPosition == characters[i].position) {
-            yellowTranslateX = Math.abs(yellowTranslateX);
-            yellowTranslateY = Math.abs(yellowTranslateY);
-        } else {
-            yellowTranslateX = -Math.abs(yellowTranslateX);
-            yellowTranslateY = -Math.abs(yellowTranslateY);
-        }
-        if (ghostNewPosition == characters[0].position) {
-            ghostTranslateY = Math.abs(ghostTranslateY);
-            ghostTranslateX = Math.abs(ghostTranslateX);
-        } else {
-            ghostTranslateY = -Math.abs(ghostTranslateY);
-            ghostTranslateX = -Math.abs(ghostTranslateX);
-        } 
-
-        const transformDistance = yellowTranslateY + ghostTranslateY + yellowTranslateX + ghostTranslateX;
-
-
-        if (transformDistance > requirement) {
-            if (characters[i].mode == "frightened") {
-                gameFreeze(i);
-            } else if (characters[i].mode == "normal") {
-                gameOver();
-            }
         }
     }
 }
