@@ -1,0 +1,39 @@
+:root {
+    --yellow-sprite-y: 0px;
+}
+
+body {
+    background-color: black;
+}
+
+.yellow {
+    image-rendering: pixelated;
+    position: absolute;
+    top: 4px;
+    left: 5.5px;
+    width: 30px;
+    height: 28px;
+}
+
+.yellow-visible {
+    background-image: url("sprites.png");
+    background-position: -32px var(--yellow-sprite-y);
+    transition: transform 1000ms linear;
+    z-index: 101;
+}
+
+.yellow-animation-move {
+    animation: 1000ms forwards steps(1, end) yellow;
+}
+
+@keyframes yellow {
+    0%, 70%, 100% {
+        background-position: -32px var(--yellow-sprite-y);
+    }
+    30% {
+        background-position: 0px var(--yellow-sprite-y);
+    }
+    80% {
+        background-position: -64px 0rem;
+    }
+}
