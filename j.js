@@ -164,9 +164,6 @@ function startLevel() {
         livesLost++;
         characterMove(0);
         characterMove(1);
-        ghostRevive(2);
-        ghostRevive(3);
-        ghostRevive(4);
 
         collisionInterval = setInterval(checkCollisions, 10)
         ghostModeInterval = setTimeout(changeModes, 5000);
@@ -237,8 +234,6 @@ function makeLevel() {
 function setStartingProperties() {
     newLevel = undefined;
     window.removeEventListener("keydown", getDirection);
-    document.removeEventListener("touchstart", handleTouchStart);
-    document.removeEventListener("touchmove", handleTouchMove);
 
     clearTimeout(ghostModeInterval);
     game.style.visibility = "visible";
@@ -269,8 +264,6 @@ function setStartingProperties() {
 
     setTimeout(() => {
         window.addEventListener("keydown", getDirection);
-        document.addEventListener('touchstart', handleTouchStart);        
-        document.addEventListener('touchmove', handleTouchMove);
 
         for (let i = 2; i < 5; i++) {
             characters[i].animationLength = 200;
@@ -707,38 +700,6 @@ function animationEnd (event) {
     getSprite(i);
     characterMove(i);
 }
-function deleteGameBoard() {
-    for (let element of elements) {
-        element.remove();
-    }
-}
-function deleteClasses() {
-    for (let i = 0; i < 5; i++) {
-        if (characters[i].characterNode != undefined) {
-            characters[i].characterNode.className = characters[i].name;
-            characters[i].characterNode.removeAttribute("style");
-        }
-        transformStartingElements();
-    }
-}
-function hardReset() {
-    livesLost = 0;
-    score = 0;
-
-    setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-            lives.children[i].removeAttribute("style");
-        }
-    }, 500)
-}
-function freezeCharacters(stop) {
-    for (let i = 0; i < 5; i++) {
-        if (stop == "stop" && characters[i].mode == "eaten") {
-            continue;
-        }
-        characters[i].status = "freeze";
-    }
-}
 function getDirection(e) {
     switch (e.key) {
         case "ArrowUp":
@@ -748,37 +709,4 @@ function getDirection(e) {
             characters[0].directionNew = e.key;
     }
 }
-
-let xDown = null;                                                        
-let yDown = null;                      
-
-function handleTouchStart(e) {
-    const firstTouch = e.touches[0];                               
-    xDown = firstTouch.clientX;
-    yDown = firstTouch.clientY;                     
-};                                                
-function handleTouchMove(e) {
-    if (!xDown || !yDown) {
-        return;
-    }
-    let xMove = e.touches[0].clientX;
-    let yMove = e.touches[0].clientY;
-    let xDiff = xDown - xMove;
-    let yDiff = yDown - yMove;
-
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        if (xDiff > 0) {
-            characters[0].directionNew = "ArrowLeft";
-        } else {
-            characters[0].directionNew = "ArrowRight";
-        }
-    } else {
-        if (yDiff > 0) {
-            characters[0].directionNew = "ArrowUp";
-        } else {
-            characters[0].directionNew = "ArrowDown";
-        }
-    }
-    xDown = null;
-    yDown = null;
-};
+                                   
