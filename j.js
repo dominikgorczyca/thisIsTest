@@ -1,9 +1,6 @@
 'use strict';
 const game = document.getElementById("game");
 const gameBoard = document.getElementById("game-board");
-const start = document.getElementById("start");
-const scoreElement = document.getElementById("score");
-const lives = document.getElementById("lives");
 const root = document.documentElement.style;
 
 //What change is made to current position after going in some direction
@@ -55,56 +52,9 @@ const characters = [{
     name: "red",
     direction: "ArrowLeft",
     directionOld: undefined,
-    directionList: ["ArrowUp", "ArrowUp", "ArrowUp"],
-    progress: 0,
     position: 38,
     nextPosition: undefined,
     scatterTarget: 27,
-    mode: "normal",
-    status: "normal",
-    characterNode: undefined,
-    animationLength: undefined,
-    animationStart: undefined,
-},
-{
-    name: "pink",
-    direction: "ArrowDown",
-    directionOld: undefined,
-    directionList: ["ArrowDown", "ArrowUp", "ArrowUp", "ArrowUp", "ArrowUp"],
-    progress: 0,
-    position: 406,
-    nextPosition: undefined,
-    scatterTarget: 0,
-    mode: "normal",
-    status: "normal",
-    characterNode: undefined,
-    animationLength: undefined,
-    animationStart: undefined,
-},
-{
-    name: "blue",
-    direction: "ArrowUp",
-    directionOld: undefined,
-    directionList: ["ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowRight", "ArrowRight", "ArrowUp", "ArrowUp", "ArrowUp"],
-    progress: 0,
-    position: 404,
-    nextPosition: undefined,
-    scatterTarget: 867,
-    mode: "normal",
-    status: "normal",
-    characterNode: undefined,
-    animationLength: undefined,
-    animationStart: undefined,
-},
-{
-    name: "orange",
-    direction: "ArrowUp",
-    directionOld: undefined,
-    directionList: ["ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowLeft", "ArrowUp", "ArrowUp", "ArrowUp"],
-    progress: 0,
-    position: 408,
-    nextPosition: undefined,
-    scatterTarget: 840,
     mode: "normal",
     status: "normal",
     characterNode: undefined,
@@ -118,11 +68,7 @@ let collisionInterval;
 let ghostMode;
 let ghostModeInterval;
 let changingBackInterval
-let isFrightenedWhite = false;
-let ghostsEaten = 0;
 let newLevel = true;
-let score = 0;
-let livesLost = 0;
 let gameStartLength = 4200;
 let whichMunch = 1;
 
@@ -140,13 +86,10 @@ function startLevel() {
     }
     setStartingProperties();
     setTimeout(() => {
-        lives.children[livesLost].style.visibility = "hidden";
-        livesLost++;
         characterMove(0);
         characterMove(1);
 
         collisionInterval = setInterval(checkCollisions, 10)
-        ghostModeInterval = setTimeout(changeModes, 5000);
     }, 100)
 }
 function makeLevel() {
@@ -213,14 +156,11 @@ function makeLevel() {
 }
 function setStartingProperties() {
     newLevel = undefined;
-    window.removeEventListener("keydown", getDirection);
+    window.addEventListener("keydown", getDirection);
 
     clearTimeout(ghostModeInterval);
     game.style.visibility = "visible";
-    start.style.display = "block";
     ghostMode = "scatter";
-    ghostsEaten = 0;
-    scoreElement.innerHTML = "Score " + score;
 
     for (let i = 0; i < 2; i++) {
         characters[i].progress = 0;
@@ -239,13 +179,7 @@ function setStartingProperties() {
             getSprite(i);
         }
     }
-
-    setTimeout(() => {
-        window.addEventListener("keydown", getDirection);
-        start.style.display = "none";
-
-        getSprite(0);
-    }, gameStartLength)
+    getSprite(0);
 }
 //Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
 function transformStartingElements() {
@@ -258,16 +192,6 @@ function transformStartingElements() {
             elements[startingPositions[i]].children[i].style.transform = "translateX(-1rem)";
         }
     }
-}
-function changeModes() {
-    if (ghostMode === "scatter") {
-        ghostMode = "chase";
-        ghostModeInterval = setTimeout(changeModes, 25000);
-    } else if (ghostMode === "chase") {
-        ghostMode = "scatter";
-        ghostModeInterval = setTimeout(changeModes, 5000);
-    }
-    changeGhostDirections();
 }
 function checkCollisions() {
     const yellowTransform = new WebKitCSSMatrix(getComputedStyle(characters[0].characterNode).transform);
@@ -587,14 +511,6 @@ function eatPoint(i) {
     if (point != undefined) {
         points++;
         characters[i].mode = "hasEaten";
-        if (point.classList.contains("big-point")) {
-            makeGhostsScared();
-            score += 50;
-        } else {
-            score += 10;
-        }
-
-        scoreElement.innerHTML = "Score " + score;
         point.remove();
 
         if (points == 244) {
@@ -603,15 +519,6 @@ function eatPoint(i) {
         }
     } else {
         characters[i].mode = "normal";
-    }
-}
-function changeGhostDirections() {
-    for (let i = 1; i < 2; i++) {
-        if (characters[i].mode == "normal" &&
-            !characters[i].characterNode.className.includes("revive")) {
-            characters[i].directionOld = characters[i].direction;
-            characters[i].direction = oppositeDirection[characters[i].direction];
-        }
     }
 }
 function getDirection(e) {
