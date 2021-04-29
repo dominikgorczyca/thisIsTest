@@ -1,4 +1,3 @@
-'use strict';
 const gameBoard = document.getElementById("game-board");
 const root = document.documentElement.style;
 
@@ -37,7 +36,6 @@ const characters = [{
     nextPosition: undefined,
     mode: "normal",
     characterNode: undefined,
-    animationStart: undefined,
 },
 {
     name: "red",
@@ -47,17 +45,10 @@ const characters = [{
     scatterTarget: 27,
     mode: "normal",
     characterNode: undefined,
-    animationStart: undefined,
 },
 ];
 let elements;
-let points = 0;
-let collisionInterval;
-let ghostMode;
-let ghostModeInterval;
-let changingBackInterval
-let gameStartLength = 4200;
-let whichMunch = 1;
+
 
 window.addEventListener("keydown", getDirection);
 startLevel();
@@ -120,11 +111,7 @@ function makeLevel() {
 
         gameBoard.append(element);
     }
-
-    points = 0;
-    //first element is absolute text so we exclude it
     elements = Array.from(gameBoard.children);
-    transformStartingElements();
 }
 function setStartingProperties() {
     ghostMode = "scatter";
@@ -136,6 +123,8 @@ function setStartingProperties() {
         characters[i].characterNode = elements[characters[i].position].children[i];
         characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
         characters[i].mode = "normal";
+        characters[i].characterNode
+        characters[i].characterNode.style.transform = "translateX(-1rem)";
 
         if (i == 0) {
             root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
@@ -148,17 +137,6 @@ function setStartingProperties() {
     getSprite(0);
 }
 //Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
-function transformStartingElements() {
-    for (let i = 0; i < 2; i++) {
-        if (i == 1) {
-            for (let j = 1; j < 2; j++) {
-                elements[startingPositions[i]].children[j].style.transform = "translateX(-1rem)";
-            }
-        } else {
-            elements[startingPositions[i]].children[i].style.transform = "translateX(-1rem)";
-        }
-    }
-}
 //i - character index
 function characterMove(i) {
 
@@ -240,16 +218,8 @@ function getSprite(i) {
         spriteX = 3.2;
         spriteY = yellowSprite[characters[i].direction];
     } else {
-        if (characters[i].mode == "normal") {
-            spriteX = ghostSprite[characters[i].direction];
-            spriteY = 9.6 + 3.2 * i;
-        } else if (characters[i].mode == "frightened") {
-            spriteX = isFrightenedWhite == true ? 32 : 25.6;
-            spriteY = 12.8;
-        } else {
-            spriteX = eatenSprite[characters[i].direction];
-            spriteY = 16;
-        }
+        spriteX = ghostSprite[characters[i].direction];
+        spriteY = 9.6 + 3.2;
     }
 
     root.setProperty(`--${characters[i].name}-sprite-x`, `-${spriteX}rem`);
@@ -269,7 +239,6 @@ async function changePosition(i) {
     await new Promise(resolve => {
         characters[i].characterNode.classList.add(`${characters[i].name}-animation-move`);
         
-        characters[i].animationStart = performance.now();
         setTimeout(() => {
             characters[i].characterNode.classList.remove(`${characters[i].name}-animation-move`, `${characters[i].name}-visible`);
             characters[i].characterNode.style.transform = "";
