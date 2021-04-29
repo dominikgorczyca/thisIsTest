@@ -11,7 +11,7 @@ html {
   font-size: 0.625em;
 }
 
-body, #game, #info, #lives {
+body, #game {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -87,8 +87,7 @@ body {
   z-index: 1;
 }
 
-.blank,
-.wall-empty {
+.blank {
   background-color: black;
 }
 
@@ -103,6 +102,27 @@ body {
   border: .2rem solid #161693;
   border-radius: 80%;
   z-index: 1;
+}
+
+.gate {
+  background-color: #ffb897;
+  border-top: .7rem solid black;
+  border-bottom: .7rem solid black;
+}
+
+/* CHARACTERS */
+.yellow,
+.red {
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  position: absolute;
+  top: -0.4rem;
+  left: -0.55rem;
+  width: 3rem;
+  height: 2.8rem;
 }
 
 .yellow-visible,

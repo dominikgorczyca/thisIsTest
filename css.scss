@@ -10,7 +10,7 @@ html {
     font-size: 0.625em;
 }
 
-body, #game, #info, #lives {
+body, #game {
     display: flex;
 }
 body {
@@ -27,6 +27,8 @@ body {
     flex-direction: column;
     display: none;
 }
+
+
 #game-board {
     position: relative;
     overflow: hidden;
@@ -65,8 +67,7 @@ body {
     z-index: 1;
 }
 
-.blank,
-.wall-empty {
+.blank {
     background-color: black;
 }
 
@@ -82,6 +83,22 @@ body {
     z-index: 1;
 }
 
+.gate {
+    background-color: #ffb897;
+    border-top: .7rem solid black;
+    border-bottom: .7rem solid black;
+}
+
+/* CHARACTERS */
+.yellow,
+.red {
+    image-rendering: pixelated;
+    position: absolute;
+    top: -0.4rem;
+    left: -0.55rem;
+    width: 3rem;
+    height: 2.8rem;
+}
 
 .yellow-visible,
 .red-visible {
