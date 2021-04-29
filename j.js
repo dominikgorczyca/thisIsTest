@@ -2,19 +2,11 @@ const gameBoard = document.getElementById("game-board");
 const root = document.documentElement.style;
 
 //What change is made to current position after going in some direction
-const startingPositions = [658, 322, 406, 404, 408];
 const positionChange = {
     "ArrowRight": 1,
     "ArrowLeft": -1,
     "ArrowUp": -28,
     "ArrowDown": 28,
-}
-
-const oppositeDirection = {
-    "ArrowUp": "ArrowDown",
-    "ArrowDown": "ArrowUp",
-    "ArrowRight": "ArrowLeft",
-    "ArrowLeft": "ArrowRight",
 }
 const yellowSprite = {
     "ArrowRight": 0,
@@ -30,9 +22,21 @@ const characters = [{
     nextPosition: undefined,
     characterNode: undefined,
 }];
-let elements;
 
+let elements;
 window.addEventListener("keydown", getDirection);
+
+function getDirection(e) {
+    switch (e.key) {
+        case "ArrowUp":
+        case "ArrowDown":
+        case "ArrowRight":
+        case "ArrowLeft":
+            characters[0].directionNew = e.key;
+    }
+}
+            
+
 startLevel();
 
 function startLevel() {
@@ -96,17 +100,12 @@ function makeLevel() {
 function setStartingProperties() {
 
     for (let i = 0; i < 1; i++) {
-        characters[i].progress = 0;
-        characters[i].position = startingPositions[i];
-        characters[i].direction = i < 1 ? "ArrowLeft" : characters[i].directionList[0];
         characters[i].characterNode = elements[characters[i].position].children[i];
-        characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
-        characters[i].characterNode
-        characters[i].characterNode.style.transform = "translateX(-10px)";
+        characters[i].characterNode.classList.add(`yellow-visible`);
 
         if (i == 0) {
-            root.setProperty(`--${characters[i].name}-sprite-x`, "-6.40px")
-            root.setProperty(`--${characters[i].name}-sprite-y`, "00px")
+            root.setProperty(`--yellow-sprite-x`, "-6.40px")
+            root.setProperty(`--yellow-sprite-y`, "00px")
             characters[i].directionNew = undefined;
         }
     }
@@ -146,10 +145,9 @@ function getYellowDirection(i) {
     }
 }
 function getSprite(i) {
-    let spriteX = 32;
     let spriteY = yellowSprite[characters[i].direction];
 
-    root.setProperty(`--${characters[i].name}-sprite-y`, `-${spriteY}px`);
+    root.setProperty(`--yellow-sprite-y`, `-${spriteY}px`);
 }
 function getTransition(i) {
     const transitionMove = {
@@ -163,14 +161,14 @@ function getTransition(i) {
 }
 async function changePosition(i) {
     await new Promise(resolve => {
-        characters[i].characterNode.classList.add(`${characters[i].name}-animation-move`);
+        characters[i].characterNode.classList.add(`yellow-animation-move`);
         
         setTimeout(() => {
-            characters[i].characterNode.classList.remove(`${characters[i].name}-animation-move`, `${characters[i].name}-visible`);
+            characters[i].characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
             characters[i].characterNode.style.transform = "";
             characters[i].position = characters[i].nextPosition;
             characters[i].characterNode = elements[characters[i].position].children[i];
-            characters[i].characterNode.classList.add(`${characters[i].name}-visible`);
+            characters[i].characterNode.classList.add(`yellow-visible`);
 
             resolve("")
         }, 200)
@@ -178,13 +176,4 @@ async function changePosition(i) {
     })
     characterMove(i)
 }
-function getDirection(e) {
-    switch (e.key) {
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowRight":
-        case "ArrowLeft":
-            characters[0].directionNew = e.key;
-    }
-}
-                                   
+                       

@@ -1,8 +1,5 @@
 :root {
-    --yellow-sprite-x: ;
     --yellow-sprite-y: ;
-    --red-sprite-x: ;
-    --red-sprite-y: ;
 }
 
 body {
@@ -44,13 +41,12 @@ body {
 }
 /* CHARACTERS */
 .yellow {
-    image-rendering: pixelated;
     position: absolute;
     top: -4px;
     left: -5.5px;
     width: 30px;
     height: 28px;
-    z-index: 100;
+    z-index: 1;
 }
 
 .yellow-visible {
