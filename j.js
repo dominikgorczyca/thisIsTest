@@ -6,12 +6,6 @@ const scoreElement = document.getElementById("score");
 const lives = document.getElementById("lives");
 const root = document.documentElement.style;
 
-let soundtrack = document.createElement("audio");
-let sound = document.createElement("audio");
-soundtrack.loop = "true";
-soundtrack.volume = 0.7;
-sound.volume = 0.5;
-
 //What change is made to current position after going in some direction
 const startingPositions = [658, 322, 406, 404, 408];
 const positionChange = {
@@ -140,26 +134,12 @@ function startGame() {
     document.removeEventListener("click", startGame)
 }
 
-soundtrack.addEventListener('timeupdate', () => {
-    var buffer = 0.3;
-    if(soundtrack.currentTime > soundtrack.duration - buffer){
-        soundtrack.currentTime = 0; 
-        soundtrack.play()
-    }
-});
-
 function startLevel() {
     if (newLevel == true) {
-        gameStartLength = 4300;
-        sound.src = "https://dominikgorczyca.github.io/Pac-Man/audio/game_start.wav";
         makeLevel();
-        sound.play();
     }
     setStartingProperties();
     setTimeout(() => {
-        soundtrack.src = "https://dominikgorczyca.github.io/Pac-Man/audio/siren1.wav";
-        soundtrack.play();
-        sound.pause();
         lives.children[livesLost].style.visibility = "hidden";
         livesLost++;
         characterMove(0);
@@ -167,7 +147,7 @@ function startLevel() {
 
         collisionInterval = setInterval(checkCollisions, 10)
         ghostModeInterval = setTimeout(changeModes, 5000);
-    }, gameStartLength)
+    }, 100)
 }
 function makeLevel() {
     const gameArray = [0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 19, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 1,
@@ -295,7 +275,7 @@ function checkCollisions() {
     let yellowTranslateY = yellowTransform.f;
 
     for (let i = 1; i < 2; i++) {
-        //soundtrack is so there aren't multiple gameOver if few ghosts hit pacman
+        
         if (characters[0].status == "freeze") {
             clearInterval(collisionInterval)
             return;
@@ -370,9 +350,6 @@ function characterMove(i) {
     characters[i].nextPosition = getNewPosition(i);
 
     if (elements[characters[i].nextPosition].classList.contains("wall")) {
-        if(sound.src.includes("munch")) {
-            sound.pause();
-        }
         setTimeout(() => {
             characterMove(i);
         }, 50)
@@ -615,10 +592,6 @@ function eatPoint(i) {
             score += 50;
         } else {
             score += 10;
-            if(!sound.src.includes("munch") || sound.paused) {
-                sound.src = `https://dominikgorczyca.github.io/Pac-Man/audio/munch.wav`;
-                sound.play();
-            }
         }
 
         scoreElement.innerHTML = "Score " + score;
@@ -630,9 +603,6 @@ function eatPoint(i) {
         }
     } else {
         characters[i].mode = "normal";
-        if(sound.src.includes("munch")) {
-            sound.pause();
-        }
     }
 }
 function changeGhostDirections() {
