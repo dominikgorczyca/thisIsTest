@@ -8,12 +8,7 @@ const positionChange = {
     "ArrowUp": -28,
     "ArrowDown": 28,
 }
-const yellowSprite = {
-    "ArrowRight": 0,
-    "ArrowLeft": 32,
-    "ArrowUp": 64,
-    "ArrowDown": 96,
-}
+
 const characters = [{
     name: "yellow",
     direction: "ArrowLeft",
@@ -26,6 +21,13 @@ const characters = [{
 let elements;
 window.addEventListener("keydown", getDirection);
 
+const yellowSprite = {
+    "ArrowRight": 0,
+    "ArrowLeft": 32,
+    "ArrowUp": 64,
+    "ArrowDown": 96,
+}
+
 function getDirection(e) {
     switch (e.key) {
         case "ArrowUp":
@@ -36,7 +38,6 @@ function getDirection(e) {
     }
 }
             
-
 startLevel();
 
 function startLevel() {
@@ -82,7 +83,6 @@ function makeLevel() {
         const element = document.createElement("DIV");
 
         if (gameArray[i] > 25) {
-            element.className = "blank"
             for (let j = 0; j < 1; j++) {
                 let character = document.createElement("DIV");
                 character.className = characters[j].name;
@@ -98,21 +98,13 @@ function makeLevel() {
     elements = Array.from(gameBoard.children);
 }
 function setStartingProperties() {
-
     for (let i = 0; i < 1; i++) {
         characters[i].characterNode = elements[characters[i].position].children[i];
         characters[i].characterNode.classList.add(`yellow-visible`);
-
-        if (i == 0) {
-            root.setProperty(`--yellow-sprite-x`, "-6.40px")
-            root.setProperty(`--yellow-sprite-y`, "00px")
-            characters[i].directionNew = undefined;
-        }
+        root.setProperty(`--yellow-sprite-y`, "0px")
     }
-    getSprite(0);
 }
-//Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
-//i - character index
+
 function characterMove(i) {
     characters[i].nextPosition = getNewPosition(i);
 
@@ -123,18 +115,12 @@ function characterMove(i) {
         return;
     }
 
-    getSprite(i)
+    root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[i].direction]}px`);
+
     getTransition(i);
     changePosition(i);
 }
 function getNewPosition(i) {
-    getYellowDirection(i);
-    let nextPosition = characters[i].position + positionChange[characters[i].direction];
-
-
-    return nextPosition;
-}
-function getYellowDirection(i) {
     if (characters[i].directionNew != undefined) {
         const newPosition = characters[i].position + positionChange[characters[i].directionNew];
 
@@ -143,11 +129,11 @@ function getYellowDirection(i) {
             characters[i].directionNew = undefined;
         }
     }
-}
-function getSprite(i) {
-    let spriteY = yellowSprite[characters[i].direction];
 
-    root.setProperty(`--yellow-sprite-y`, `-${spriteY}px`);
+    return characters[i].position + positionChange[characters[i].direction];
+}
+function getYellowDirection(i) {
+
 }
 function getTransition(i) {
     const transitionMove = {
