@@ -30,6 +30,7 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   padding: 1em 0;
+  font-family: "joystick", Arial, sans-serif;
 }
 
 #game {
@@ -37,7 +38,6 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  display: none;
 }
 
 #game-board {

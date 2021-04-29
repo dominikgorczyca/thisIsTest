@@ -1,5 +1,4 @@
 'use strict';
-const game = document.getElementById("game");
 const gameBoard = document.getElementById("game-board");
 const root = document.documentElement.style;
 
@@ -60,22 +59,15 @@ let changingBackInterval
 let gameStartLength = 4200;
 let whichMunch = 1;
 
-document.addEventListener("click", startGame); 
-
-function startGame() {
-    game.style.display = "block ";
-    startLevel();
-    document.removeEventListener("click", startGame)
-}
+window.addEventListener("keydown", getDirection);
+startLevel();
 
 function startLevel() {
     makeLevel();
     setStartingProperties();
-    setTimeout(() => {
-        characterMove(0);
-        characterMove(1);
+    characterMove(0);
+    characterMove(1);
 
-    }, 100)
 }
 function makeLevel() {
     const gameArray = [0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 18, 19, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 1,
@@ -135,10 +127,6 @@ function makeLevel() {
     transformStartingElements();
 }
 function setStartingProperties() {
-    window.addEventListener("keydown", getDirection);
-
-    clearTimeout(ghostModeInterval);
-    game.style.visibility = "visible";
     ghostMode = "scatter";
 
     for (let i = 0; i < 2; i++) {
@@ -245,7 +233,28 @@ function calculateDistance(target, newGhostPosition) {
 
     return distanceX ** 2 + distanceY ** 2;
 }
+function getSprite(i) {
+    let spriteX;
+    let spriteY;
+    if (i == 0) {
+        spriteX = 3.2;
+        spriteY = yellowSprite[characters[i].direction];
+    } else {
+        if (characters[i].mode == "normal") {
+            spriteX = ghostSprite[characters[i].direction];
+            spriteY = 9.6 + 3.2 * i;
+        } else if (characters[i].mode == "frightened") {
+            spriteX = isFrightenedWhite == true ? 32 : 25.6;
+            spriteY = 12.8;
+        } else {
+            spriteX = eatenSprite[characters[i].direction];
+            spriteY = 16;
+        }
+    }
 
+    root.setProperty(`--${characters[i].name}-sprite-x`, `-${spriteX}rem`);
+    root.setProperty(`--${characters[i].name}-sprite-y`, `-${spriteY}rem`);
+}
 function getTransition(i) {
     const transitionMove = {
         "ArrowUp": "Y(-2rem)",

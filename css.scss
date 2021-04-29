@@ -10,10 +10,8 @@ html {
     font-size: 0.625em;
 }
 
-body, #game {
-    display: flex;
-}
 body {
+    display: flex;
     box-sizing: border-box;
     margin: 0;
     background-color: #000000;
@@ -24,8 +22,8 @@ body {
     font-family: "joystick", Arial, sans-serif;
 }
 #game {
+    display: flex;
     flex-direction: column;
-    display: none;
 }
 
 
