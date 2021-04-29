@@ -1,8 +1,5 @@
 :root {
-  --yellow-sprite-x: ;
-  --yellow-sprite-y: ;
-  --red-sprite-x: ;
-  --red-sprite-y: ;
+  --yellow-sprite-y: -32px;
 }
 
 body {
@@ -24,10 +21,6 @@ body {
 }
 
 #game-board {
-  position: relative;
-  overflow: hidden;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   width: 560px;
   height: 620px;
   display: -ms-grid;
@@ -36,62 +29,37 @@ body {
       grid-template-columns: repeat(28, 20px);
 }
 
-/* GAME BOARD GENERAL */
 #game-board > * {
   position: relative;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   width: 20px;
   height: 20px;
 }
 
-/* OBJECTS AND WALLS  */
 .wall {
-  overflow: hidden;
   background-image: url("map.png");
 }
 
-.blank {
-  background-color: black;
-}
-
-/* CHARACTERS */
 .yellow {
-  -ms-interpolation-mode: nearest-neighbor;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-pixelated;
-      image-rendering: pixelated;
   position: absolute;
   top: -4px;
   left: -5.5px;
   width: 30px;
   height: 28px;
-  z-index: 100;
+  z-index: 10;
 }
 
 .yellow-visible {
   background-image: url("sprites.png");
-  will-change: transform background-position;
-}
-
-.yellow-visible {
-  background-position: var(--yellow-sprite-x) var(--yellow-sprite-y);
+  background-position: -32px var(--yellow-sprite-y);
   -webkit-transition: -webkit-transform 200ms linear;
   transition: -webkit-transform 200ms linear;
   transition: transform 200ms linear;
   transition: transform 200ms linear, -webkit-transform 200ms linear;
 }
 
-/* Animations */
 .yellow-animation-move {
   -webkit-animation: 200ms forwards steps(1, end) yellow;
           animation: 200ms forwards steps(1, end) yellow;
-}
-
-.red-animation-move {
-  -webkit-animation: 200ms forwards steps(1, end) red;
-          animation: 200ms forwards steps(1, end) red;
 }
 
 @-webkit-keyframes yellow {
@@ -115,24 +83,6 @@ body {
   }
   80% {
     background-position: -64px 0px;
-  }
-}
-
-@-webkit-keyframes red {
-  0%, 100% {
-    background-position: var(--red-sprite-x) var(--red-sprite-y);
-  }
-  50% {
-    background-position: calc(var(--red-sprite-x) - 32px) var(--red-sprite-y);
-  }
-}
-
-@keyframes red {
-  0%, 100% {
-    background-position: var(--red-sprite-x) var(--red-sprite-y);
-  }
-  50% {
-    background-position: calc(var(--red-sprite-x) - 32px) var(--red-sprite-y);
   }
 }
 /*# sourceMappingURL=css.css.map */

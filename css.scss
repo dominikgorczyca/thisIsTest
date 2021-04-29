@@ -1,7 +1,6 @@
 :root {
-    --yellow-sprite-y: ;
+    --yellow-sprite-y: -32px;
 }
-
 body {
     display: flex;
     box-sizing: border-box;
@@ -13,53 +12,36 @@ body {
     padding: 10px 0;
 }
 #game-board {
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
     width: 560px;
     height: 620px;
     display: grid;
     grid-template-columns: repeat(28, 20px);
 }
-/* GAME BOARD GENERAL */
-
 #game-board > * {
     position: relative;
     box-sizing: border-box;
     width: 20px;
     height: 20px;
 }
-
-/* OBJECTS AND WALLS  */
 .wall {
-    overflow: hidden;
     background-image: url("map.png");
 }
-/* CHARACTERS */
 .yellow {
     position: absolute;
     top: -4px;
     left: -5.5px;
     width: 30px;
     height: 28px;
-    z-index: 1;
+    z-index: 10;
 }
-
 .yellow-visible {
     background-image: url("sprites.png");
-    will-change: transform background-position;
-}
-
-.yellow-visible {
-    background-position: 32px var(--yellow-sprite-y);
+    background-position: -32px var(--yellow-sprite-y);
     transition: transform 200ms linear;
 }
-
-/* Animations */
 .yellow-animation-move {
     animation: 200ms forwards steps(1, end) yellow;
 }
-
 @keyframes yellow {
     0%, 70%, 100% {
         background-position: -32px var(--yellow-sprite-y);

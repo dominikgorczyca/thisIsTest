@@ -98,11 +98,9 @@ function makeLevel() {
     elements = Array.from(gameBoard.children);
 }
 function setStartingProperties() {
-    for (let i = 0; i < 1; i++) {
-        characters[i].characterNode = elements[characters[i].position].children[i];
-        characters[i].characterNode.classList.add(`yellow-visible`);
-        root.setProperty(`--yellow-sprite-y`, "0px")
-    }
+    characters[0].characterNode = elements[characters[0].position].children[0];
+    characters[0].characterNode.classList.add(`yellow-visible`);
+    root.setProperty(`--yellow-sprite-y`, "0px")
 }
 
 function characterMove(i) {
@@ -132,9 +130,7 @@ function getNewPosition(i) {
 
     return characters[i].position + positionChange[characters[i].direction];
 }
-function getYellowDirection(i) {
 
-}
 function getTransition(i) {
     const transitionMove = {
         "ArrowUp": "Y(-20px)",
