@@ -154,10 +154,10 @@ function setStartingProperties() {
             root.setProperty(`--${characters[i].name}-sprite-y`, "0rem")
             characters[i].directionNew = undefined;
         } else {
-            root.setProperty(`--${characters[i].name}-sprite-x`, "-6.4rem")
-            root.setProperty(`--${characters[i].name}-sprite-y`, "-12.8rem")
+            getSprite(i);
         }
     }
+    getSprite(0);
 }
 //Transform has to be set before class visible is added in setStartingProperties cause transform will transition instead of changing instantly
 function transformStartingElements() {
@@ -182,6 +182,8 @@ function characterMove(i) {
         }, 50)
         return;
     }
+
+    getSprite(i)
     getTransition(i);
     changePosition(i);
 }
@@ -215,7 +217,6 @@ function getYellowDirection(i) {
     }
 }
 function getGhostDirection(i) {
-    // so direction won't become undefined if newDirection has no move (like crossing tunnel)
     let newDirection = characters[i].direction;
     let biggestDistance = 100000;
     let target;
