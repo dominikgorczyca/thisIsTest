@@ -10,7 +10,6 @@ makeLevel();
 function makeLevel() {
     for (let i = 0; i < 868; i++) {
         const element = document.createElement("DIV");
-        element.className = "wall"
         element.style.backgroundPosition = `0 0`;
 
         let character = document.createElement("DIV");
@@ -21,10 +20,6 @@ function makeLevel() {
     }
     elements = Array.from(gameBoard.children);
     characterNode = elements[658].children[0];
-    characterMove();
-}
-function characterMove() {
-
     changePosition();
 }
 function changePosition() {
@@ -37,7 +32,7 @@ function changePosition() {
         position = position - 1;
         characterNode = elements[position].children[0];
         characterNode.classList.add(`yellow-visible`);
-        characterMove()
+        changePosition()
     }, 200)
 }
                        
