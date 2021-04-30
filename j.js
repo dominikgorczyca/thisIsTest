@@ -26,12 +26,11 @@ function changePosition() {
     characterNode.style.transform = `translateX(-20px)`;
 
     setTimeout(() => {
-        characterNode.classList.remove(`yellow-visible`);
         characterNode.style.transform = "";
+        characterNode.classList.remove(`yellow-visible`);
         position = position - 1;
         characterNode = elements[position].children[0];
         characterNode.classList.add(`yellow-visible`);
         changePosition()
     }, 200)
 }
-                       
