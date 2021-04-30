@@ -15,7 +15,6 @@ function makeLevel() {
         let character = document.createElement("DIV");
         character.className = "yellow";
         element.append(character);
-
         gameBoard.append(element);
     }
     elements = Array.from(gameBoard.children);
