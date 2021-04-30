@@ -36,10 +36,9 @@ function getTransition() {
     characterNode.style.transform = `translateX(-20px)`;
 }
 function changePosition() {
-    characterNode.classList.add(`yellow-animation-move`);
         
     setTimeout(() => {
-        characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
+        characterNode.classList.remove(`yellow-visible`);
         characterNode.style.transform = "";
         position = position - 1;
         characterNode = elements[position].children[0];

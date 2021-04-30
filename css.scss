@@ -31,17 +31,3 @@
     background-position: -32px var(--yellow-sprite-y);
     transition: transform 200ms linear;
 }
-.yellow-animation-move {
-    animation: 200ms forwards steps(1, end) yellow;
-}
-@keyframes yellow {
-    0%, 70%, 100% {
-        background-position: -32px var(--yellow-sprite-y);
-    }
-    30% {
-        background-position:  0px var(--yellow-sprite-y);
-    }
-    80% {
-        background-position: -64px 0px;
-    }
-}
