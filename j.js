@@ -4,9 +4,7 @@ const root = document.documentElement.style;
 
 const characters = [{
     name: "yellow",
-    direction: "ArrowLeft",
     position: 658,
-    nextPosition: undefined,
     characterNode: undefined,
 }];
 
@@ -39,12 +37,11 @@ function makeLevel() {
         gameBoard.append(element);
     }
     elements = Array.from(gameBoard.children);
-    characters[0].characterNode = elements[characters[0].position].children[0];
+    characters[0].characterNode = elements[658].children[0];
 }
 function characterMove() {
-    characters[0].nextPosition = characters[0].position - 1;
 
-    root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
+    root.setProperty(`--yellow-sprite-y`, `-${yellowSprite["ArrowLeft"]}px`);
 
     getTransition();
     changePosition();
@@ -58,7 +55,7 @@ function getTransition() {
         "ArrowLeft": "X(-20px)",
     }
 
-    characters[0].characterNode.style.transform = `translate${transitionMove[characters[0].direction]}`;
+    characters[0].characterNode.style.transform = `translate${transitionMove["ArrowLeft"]}`;
 }
 function changePosition() {
     characters[0].characterNode.classList.add(`yellow-animation-move`);
@@ -66,7 +63,7 @@ function changePosition() {
     setTimeout(() => {
         characters[0].characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
         characters[0].characterNode.style.transform = "";
-        characters[0].position = characters[0].nextPosition;
+        characters[0].position = characters[0].position - 1;
         characters[0].characterNode = elements[characters[0].position].children[0];
         characters[0].characterNode.classList.add(`yellow-visible`);
         characterMove()
