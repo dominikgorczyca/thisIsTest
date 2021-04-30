@@ -10,7 +10,7 @@ makeLevel();
 function makeLevel() {
     for (let i = 0; i < 868; i++) {
         const element = document.createElement("DIV");
-        element.style.backgroundPosition = `0 0`;
+        // element.style.backgroundPosition = `0 0`;
 
         let character = document.createElement("DIV");
         character.className = "yellow";
