@@ -4,8 +4,6 @@ const root = document.documentElement.style;
 let elements;
 let characterNode;
 let position = 658;
-
-
 makeLevel();
 
 function makeLevel() {
@@ -25,7 +23,6 @@ function makeLevel() {
     characterMove();
 }
 
-
 function characterMove() {
     getTransition();
     changePosition();
@@ -36,14 +33,13 @@ function getTransition() {
         "ArrowLeft": "X(-20px)",
     }
 
-    characterNode.style.transform = `translate${transitionMove["ArrowLeft"]}`;
+    characterNode.style.transform = `translateX(-20px)`;
 }
 function changePosition() {
     characterNode.classList.add(`yellow-animation-move`);
         
     setTimeout(() => {
         characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
-        characterNode.style.transform = "";
         position = position - 1;
         characterNode = elements[position].children[0];
         characterNode.classList.add(`yellow-visible`);
