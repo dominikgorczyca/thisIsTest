@@ -28,6 +28,6 @@
 }
 .yellow-visible {
     background-image: url("sprites.png");
-    background-position: -32px -32px;
+    background-position: -32px var(--yellow-sprite-y);
     transition: transform 200ms linear;
 }
