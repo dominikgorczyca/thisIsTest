@@ -9,6 +9,15 @@ const positionChange = {
     "ArrowDown": 28,
 }
 
+const characters = [{
+    name: "yellow",
+    direction: "ArrowLeft",
+    directionNew: undefined,
+    position: 658,
+    nextPosition: undefined,
+    characterNode: undefined,
+}];
+
 let elements;
 window.addEventListener("keydown", getDirection);
 
@@ -29,22 +38,12 @@ function getDirection(e) {
     }
 }
             
-const characters = [{
-    name: "yellow",
-    direction: "ArrowLeft",
-    directionNew: undefined,
-    position: 658,
-    nextPosition: undefined,
-    characterNode: undefined,
-}];
-
-
 startLevel();
 
 function startLevel() {
     makeLevel();
-    characters[0].characterNode = elements[658].children[0];
-    characterMove();
+    setStartingProperties();
+    characterMove(0);
 }
 function makeLevel() {
     const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -86,16 +85,21 @@ function makeLevel() {
         if (gameArray[i] == 1) {
             for (let j = 0; j < 1; j++) {
                 let character = document.createElement("DIV");
-                character.className = "yellow";
+                character.className = characters[j].name;
                 element.append(character);
             }
         } else {
             element.className = "wall"
+            element.style.backgroundPosition = `-180px 0`;
         }
 
         gameBoard.append(element);
     }
     elements = Array.from(gameBoard.children);
+}
+function setStartingProperties() {
+    characters[0].characterNode = elements[characters[0].position].children[0];
+    characters[0].characterNode.classList.add(`yellow-visible`);
 }
 
 function characterMove(i) {
