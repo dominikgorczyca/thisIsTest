@@ -11,7 +11,7 @@ function makeLevel() {
     for (let i = 0; i < 868; i++) {
         const element = document.createElement("DIV");
         element.className = "wall"
-        element.style.backgroundPosition = `-100px 0`;
+        element.style.backgroundPosition = `0 0`;
 
         let character = document.createElement("DIV");
         character.className = "yellow";
@@ -27,16 +27,10 @@ function makeLevel() {
 
 function characterMove() {
     root.setProperty(`--yellow-sprite-y`, `-32px`);
-
-    getTransition();
+    characterNode.style.transform = `translateX(-20px)`;
     changePosition();
 }
-
-function getTransition() {
-    characterNode.style.transform = `translateX(-20px)`;
-}
 function changePosition() {
-        
     setTimeout(() => {
         characterNode.classList.remove(`yellow-visible`);
         characterNode.style.transform = "";
