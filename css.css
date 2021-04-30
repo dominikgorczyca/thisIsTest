@@ -1,23 +1,18 @@
 :root {
   --yellow-sprite-y: -32px;
 }
-
 #game-board {
   width: 560px;
   height: 620px;
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (20px)[28];
-      grid-template-columns: repeat(28, 20px);
+  grid-template-columns: repeat(28, 20px);
   background-color: #000000;
 }
-
 #game-board > * {
   position: relative;
   width: 20px;
   height: 20px;
 }
-
 .yellow {
   position: absolute;
   top: -4px;
@@ -26,13 +21,8 @@
   height: 28px;
   z-index: 10;
 }
-
 .yellow-visible {
   background-image: url("https://i.imgur.com/SphNpH6.png");
   background-position: -32px var(--yellow-sprite-y);
-  -webkit-transition: -webkit-transform 200ms linear;
-  transition: -webkit-transform 200ms linear;
   transition: transform 200ms linear;
-  transition: transform 200ms linear, -webkit-transform 200ms linear;
 }
-/*# sourceMappingURL=css.css.map */
