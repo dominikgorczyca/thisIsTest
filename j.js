@@ -46,7 +46,6 @@ function startLevel() {
     characters[0].characterNode = elements[658].children[0];
     characterMove();
 }
-
 function makeLevel() {
     const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -99,22 +98,22 @@ function makeLevel() {
     elements = Array.from(gameBoard.children);
 }
 
-function characterMove() {
-    characters[0].nextPosition = getNewPosition();
+function characterMove(i) {
+    characters[0].nextPosition = getNewPosition(i);
 
     if (elements[characters[0].nextPosition].classList.contains("wall")) {
         setTimeout(() => {
-            characterMove();
+            characterMove(i);
         }, 50)
         return;
     }
 
     root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
-    getTransition();
-    changePosition();
+    getTransition(i);
+    changePosition(i);
 }
-function getNewPosition() {
+function getNewPosition(i) {
     if (characters[0].directionNew != undefined) {
         const newPosition = characters[0].position + positionChange[characters[0].directionNew];
 
@@ -127,7 +126,7 @@ function getNewPosition() {
     return characters[0].position + positionChange[characters[0].direction];
 }
 
-function getTransition() {
+function getTransition(i) {
     const transitionMove = {
         "ArrowUp": "Y(-20px)",
         "ArrowDown": "Y(20px)",
@@ -137,7 +136,7 @@ function getTransition() {
 
     characters[0].characterNode.style.transform = `translate${transitionMove[characters[0].direction]}`;
 }
-function changePosition() {
+function changePosition(i) {
     characters[0].characterNode.classList.add(`yellow-animation-move`);
         
     setTimeout(() => {
@@ -146,7 +145,7 @@ function changePosition() {
         characters[0].position = characters[0].nextPosition;
         characters[0].characterNode = elements[characters[0].position].children[0];
         characters[0].characterNode.classList.add(`yellow-visible`);
-        characterMove()
+        characterMove(i)
     }, 200)
     
 }
