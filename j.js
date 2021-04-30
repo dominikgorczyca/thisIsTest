@@ -26,8 +26,6 @@ function makeLevel() {
 
 
 function characterMove() {
-    root.setProperty(`--yellow-sprite-y`, `-32px`);
-
     getTransition();
     changePosition();
 }
