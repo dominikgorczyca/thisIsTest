@@ -12,7 +12,7 @@ function makeLevel() {
     for (let i = 0; i < 868; i++) {
         const element = document.createElement("DIV");
         element.className = "wall"
-        element.style.backgroundPosition = `-240px 0`;
+        element.style.backgroundPosition = `-100px 0`;
 
         let character = document.createElement("DIV");
         character.className = "yellow";
@@ -34,11 +34,7 @@ function characterMove() {
 }
 
 function getTransition() {
-    const transitionMove = {
-        "ArrowLeft": "X(-20px)",
-    }
-
-    characterNode.style.transform = `translate${transitionMove["ArrowLeft"]}`;
+    characterNode.style.transform = `translateX(-20px)`;
 }
 function changePosition() {
     characterNode.classList.add(`yellow-animation-move`);
