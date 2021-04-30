@@ -81,17 +81,12 @@ function makeLevel() {
 
     for (let i = 0; i < gameArray.length; i++) {
         const element = document.createElement("DIV");
+        element.className = "wall"
+        element.style.backgroundPosition = `-180px 0`;
 
-        if (gameArray[i] == 1) {
-            for (let j = 0; j < 1; j++) {
-                let character = document.createElement("DIV");
-                character.className = characters[j].name;
-                element.append(character);
-            }
-        } else {
-            element.className = "wall"
-            element.style.backgroundPosition = `-180px 0`;
-        }
+        let character = document.createElement("DIV");
+        character.className = characters[0].name;
+        element.append(character);
 
         gameBoard.append(element);
     }
@@ -105,13 +100,6 @@ function setStartingProperties() {
 function characterMove(i) {
     characters[0].nextPosition = getNewPosition(i);
 
-    if (elements[characters[0].nextPosition].classList.contains("wall")) {
-        setTimeout(() => {
-            characterMove(i);
-        }, 50)
-        return;
-    }
-
     root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
     getTransition(i);
@@ -120,11 +108,8 @@ function characterMove(i) {
 function getNewPosition(i) {
     if (characters[0].directionNew != undefined) {
         const newPosition = characters[0].position + positionChange[characters[0].directionNew];
-
-        if (!elements[newPosition].classList.contains("wall")) {
-            characters[0].direction = characters[0].directionNew;
-            characters[0].directionNew = undefined;
-        }
+        characters[0].direction = characters[0].directionNew;
+        characters[0].directionNew = undefined;
     }
 
     return characters[0].position + positionChange[characters[0].direction];
