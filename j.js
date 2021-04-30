@@ -102,16 +102,9 @@ function makeLevel() {
 function characterMove() {
     characters[0].nextPosition = getNewPosition();
 
-    if (elements[characters[0].nextPosition].classList.contains("wall")) {
-        setTimeout(() => {
-            characterMove();
-        }, 50)
-        return;
-    }
-
     root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
-    getTransition();
+    characters[0].characterNode.style.transform = `translateX(20px)`;
     changePosition();
 }
 function getNewPosition() {
@@ -125,17 +118,6 @@ function getNewPosition() {
     }
 
     return characters[0].position + positionChange[characters[0].direction];
-}
-
-function getTransition() {
-    const transitionMove = {
-        "ArrowUp": "Y(-20px)",
-        "ArrowDown": "Y(20px)",
-        "ArrowRight": "X(20px)",
-        "ArrowLeft": "X(-20px)",
-    }
-
-    characters[0].characterNode.style.transform = `translate${transitionMove[characters[0].direction]}`;
 }
 function changePosition() {
     characters[0].characterNode.classList.add(`yellow-animation-move`);
