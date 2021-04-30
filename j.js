@@ -9,15 +9,6 @@ const positionChange = {
     "ArrowDown": 28,
 }
 
-const characters = [{
-    name: "yellow",
-    direction: "ArrowLeft",
-    directionNew: undefined,
-    position: 658,
-    nextPosition: undefined,
-    characterNode: undefined,
-}];
-
 let elements;
 window.addEventListener("keydown", getDirection);
 
@@ -38,100 +29,105 @@ function getDirection(e) {
     }
 }
             
+const characters = [{
+    name: "yellow",
+    direction: "ArrowLeft",
+    directionNew: undefined,
+    position: 658,
+    nextPosition: undefined,
+    characterNode: undefined,
+}];
+
+
 startLevel();
 
 function startLevel() {
     makeLevel();
-    setStartingProperties();
-    characterMove(0);
+    characters[0].characterNode = elements[658].children[0];
+    characterMove();
 }
+
 function makeLevel() {
     const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 0,
-        0, 126, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 126, 0,
-        0, 262, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 262, 0,
-        0, 126, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 126, 0,
-        0, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 0,
-        0, 126, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 126, 0,
-        0, 126, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 126, 0,
-        0, 126, 126, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 126, 126, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 26, 0, 0, 26, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 26, 0, 0, 26, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 0, 26, 0, 0, 0, 0, 0, 0, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        26, 26, 26, 26, 26, 26, 126, 26, 26, 26, 0, 26, 26, 26, 26, 26, 26, 0, 26, 26, 26, 126, 26, 26, 26, 26, 26, 26,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 126, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 126, 0, 0, 0, 0, 0, 0,
-        0, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 0,
-        0, 126, 0, 0, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 126, 0, 0, 0, 0, 126, 0,
-        0, 126, 0, 0, 0, 0, 126, 0,  0,  0,  0, 0, 126, 0, 0, 126, 0,  0,  0,  0, 0, 126, 0, 0,  0, 0, 126, 0,
-        0, 262, 126, 126, 0, 0, 126, 126, 126, 126, 126, 126, 126, 26, 26, 126, 126, 126, 126, 126, 126, 126, 0, 0, 126, 126, 262, 0,
-        0, 0, 0, 126, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 126, 0, 0, 0,
-        0, 0, 0, 126, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 126, 0, 0, 0,
-        0, 126, 126, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 0, 0, 126, 126, 126, 126, 126, 126, 0,
-        0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0,
-        0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 126, 0,
-        0, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 126, 0,
+        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+        0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+        0, 262, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 262, 0,
+        0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+        0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+        0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+        0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+        0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+        0, 1, 0, 0, 0, 0, 1, 0,  0,  0,  0, 0, 1, 0, 0, 1, 0,  0,  0,  0, 0, 1, 0, 0,  0, 0, 1, 0,
+        0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0,
+        0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0,
+        0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0,
+        0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0,
+        0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+        0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3
     ]
 
     for (let i = 0; i < gameArray.length; i++) {
         const element = document.createElement("DIV");
 
-        if (gameArray[i] > 0) {
+        if (gameArray[i] == 1) {
             for (let j = 0; j < 1; j++) {
                 let character = document.createElement("DIV");
-                character.className = characters[j].name;
+                character.className = "yellow";
                 element.append(character);
             }
         } else {
             element.className = "wall"
-            element.style.backgroundPosition = `-180px 0`;
         }
 
         gameBoard.append(element);
     }
     elements = Array.from(gameBoard.children);
 }
-function setStartingProperties() {
-    characters[0].characterNode = elements[characters[0].position].children[0];
-    characters[0].characterNode.classList.add(`yellow-visible`);
-    root.setProperty(`--yellow-sprite-y`, "0px")
-}
 
-function characterMove(i) {
-    characters[i].nextPosition = getNewPosition(i);
+function characterMove() {
+    characters[0].nextPosition = getNewPosition();
 
-    if (elements[characters[i].nextPosition].classList.contains("wall")) {
+    if (elements[characters[0].nextPosition].classList.contains("wall")) {
         setTimeout(() => {
-            characterMove(i);
+            characterMove();
         }, 50)
         return;
     }
 
-    root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[i].direction]}px`);
+    root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
-    getTransition(i);
-    changePosition(i);
+    getTransition();
+    changePosition();
 }
-function getNewPosition(i) {
-    if (characters[i].directionNew != undefined) {
-        const newPosition = characters[i].position + positionChange[characters[i].directionNew];
+function getNewPosition() {
+    if (characters[0].directionNew != undefined) {
+        const newPosition = characters[0].position + positionChange[characters[0].directionNew];
 
         if (!elements[newPosition].classList.contains("wall")) {
-            characters[i].direction = characters[i].directionNew;
-            characters[i].directionNew = undefined;
+            characters[0].direction = characters[0].directionNew;
+            characters[0].directionNew = undefined;
         }
     }
 
-    return characters[i].position + positionChange[characters[i].direction];
+    return characters[0].position + positionChange[characters[0].direction];
 }
 
-function getTransition(i) {
+function getTransition() {
     const transitionMove = {
         "ArrowUp": "Y(-20px)",
         "ArrowDown": "Y(20px)",
@@ -139,18 +135,18 @@ function getTransition(i) {
         "ArrowLeft": "X(-20px)",
     }
 
-    characters[i].characterNode.style.transform = `translate${transitionMove[characters[i].direction]}`;
+    characters[0].characterNode.style.transform = `translate${transitionMove[characters[0].direction]}`;
 }
-function changePosition(i) {
-    characters[i].characterNode.classList.add(`yellow-animation-move`);
+function changePosition() {
+    characters[0].characterNode.classList.add(`yellow-animation-move`);
         
     setTimeout(() => {
-        characters[i].characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
-        characters[i].characterNode.style.transform = "";
-        characters[i].position = characters[i].nextPosition;
-        characters[i].characterNode = elements[characters[i].position].children[i];
-        characters[i].characterNode.classList.add(`yellow-visible`);
-        characterMove(i)
+        characters[0].characterNode.classList.remove(`yellow-animation-move`, `yellow-visible`);
+        characters[0].characterNode.style.transform = "";
+        characters[0].position = characters[0].nextPosition;
+        characters[0].characterNode = elements[characters[0].position].children[0];
+        characters[0].characterNode.classList.add(`yellow-visible`);
+        characterMove()
     }, 200)
     
 }
