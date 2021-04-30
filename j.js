@@ -1,18 +1,10 @@
 const gameBoard = document.getElementById("game-board");
 const root = document.documentElement.style;
 
-//What change is made to current position after going in some direction
-const positionChange = {
-    "ArrowRight": 1,
-    "ArrowLeft": -1,
-    "ArrowUp": -28,
-    "ArrowDown": 28,
-}
 
 const characters = [{
     name: "yellow",
     direction: "ArrowLeft",
-    directionNew: undefined,
     position: 658,
     nextPosition: undefined,
     characterNode: undefined,
@@ -50,7 +42,7 @@ function makeLevel() {
     characters[0].characterNode = elements[characters[0].position].children[0];
 }
 function characterMove() {
-    characters[0].nextPosition = characters[0].position + positionChange[characters[0].direction];
+    characters[0].nextPosition = characters[0].position - 1;
 
     root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
@@ -79,6 +71,5 @@ function changePosition() {
         characters[0].characterNode.classList.add(`yellow-visible`);
         characterMove()
     }, 200)
-    
 }
                        
