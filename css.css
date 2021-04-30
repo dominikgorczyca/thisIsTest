@@ -18,6 +18,22 @@
   height: 20px;
 }
 
+.wall > .image {
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: -100px 0;
+     object-position: -100px 0;
+  width: 20px;
+  height: 20px;
+  content: url("map.png");
+  z-index: 0;
+}
+
 .yellow {
   position: absolute;
   top: -4px;

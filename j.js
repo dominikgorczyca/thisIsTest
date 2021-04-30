@@ -10,15 +10,21 @@ makeLevel();
 function makeLevel() {
     for (let i = 0; i < 868; i++) {
         const element = document.createElement("DIV");
-        // element.style.backgroundPosition = `0 0`;
-
+        element.className = "wall";
+        
         let character = document.createElement("DIV");
         character.className = "yellow";
         element.append(character);
+
+        let image = document.createElement("img");
+        image.className = "image";
+        element.append(image);
+
         gameBoard.append(element);
     }
     elements = Array.from(gameBoard.children);
     characterNode = elements[658].children[0];
+    console.log(elements[658].children[0])
     changePosition();
 }
 function changePosition() {

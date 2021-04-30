@@ -13,6 +13,19 @@
     width: 20px;
     height: 20px;
 }
+.wall > .image {
+    overflow: hidden;
+}
+
+.image {
+    display: block;
+    object-fit: cover;
+    object-position: -100px 0;
+    width: 20px;
+    height: 20px;
+    content: url("map.png");    
+    z-index: 0;
+}
 .yellow {
     position: absolute;
     top: -4px;
@@ -22,7 +35,7 @@
     z-index: 10;
 }
 .yellow-visible {
-    position: url("https://i.imgur.com/SphNpH6.png");
+    background-image: url("https://i.imgur.com/SphNpH6.png");
     background-position: -32px var(--yellow-sprite-y);
     transition: transform 200ms linear;
 }
