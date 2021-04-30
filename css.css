@@ -1,5 +1,5 @@
 :root {
-  --yellow-sprite-y: 0;
+  --yellow-sprite-y: -32px;
 }
 
 #game-board {
