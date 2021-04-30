@@ -28,7 +28,7 @@ function makeLevel() {
     for (let i = 0; i < 868; i++) {
         const element = document.createElement("DIV");
         element.className = "wall"
-        element.style.backgroundPosition = `-200px 0`;
+        element.style.backgroundPosition = `-220px 0`;
 
         let character = document.createElement("DIV");
         character.className = "yellow";
