@@ -19,7 +19,6 @@ const characters = [{
 }];
 
 let elements;
-window.addEventListener("keydown", getDirection);
 
 const yellowSprite = {
     "ArrowRight": 0,
@@ -28,16 +27,7 @@ const yellowSprite = {
     "ArrowDown": 96,
 }
 
-function getDirection(e) {
-    switch (e.key) {
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowRight":
-        case "ArrowLeft":
-            characters[0].directionNew = e.key;
-    }
-}
-            
+      
 startLevel();
 
 function startLevel() {
@@ -93,21 +83,12 @@ function makeLevel() {
     characters[0].characterNode = elements[characters[0].position].children[0];
 }
 function characterMove() {
-    characters[0].nextPosition = getNewPosition();
+    characters[0].nextPosition = characters[0].position + positionChange[characters[0].direction];
 
     root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
     getTransition();
     changePosition();
-}
-function getNewPosition() {
-    if (characters[0].directionNew != undefined) {
-        const newPosition = characters[0].position + positionChange[characters[0].directionNew];
-        characters[0].direction = characters[0].directionNew;
-        characters[0].directionNew = undefined;
-    }
-
-    return characters[0].position + positionChange[characters[0].direction];
 }
 
 function getTransition() {

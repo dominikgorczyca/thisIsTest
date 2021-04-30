@@ -22,6 +22,7 @@
 
 .wall {
   background-image: url("map.png");
+  will-change: background-position;
 }
 
 .yellow {
