@@ -10,13 +10,8 @@
 }
 #game-board > * {
     position: relative;
-    box-sizing: border-box;
     width: 20px;
     height: 20px;
-}
-.wall {
-    background-image: url("map.png");
-    will-change: background-position;
 }
 .yellow {
     position: absolute;

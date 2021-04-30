@@ -14,15 +14,8 @@
 
 #game-board > * {
   position: relative;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   width: 20px;
   height: 20px;
-}
-
-.wall {
-  background-image: url("map.png");
-  will-change: background-position;
 }
 
 .yellow {
