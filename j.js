@@ -42,7 +42,6 @@ startLevel();
 
 function startLevel() {
     makeLevel();
-    setStartingProperties();
     characterMove(0);
 }
 function makeLevel() {
@@ -91,21 +90,17 @@ function makeLevel() {
         gameBoard.append(element);
     }
     elements = Array.from(gameBoard.children);
-}
-function setStartingProperties() {
     characters[0].characterNode = elements[characters[0].position].children[0];
-    characters[0].characterNode.classList.add(`yellow-visible`);
 }
-
-function characterMove(i) {
-    characters[0].nextPosition = getNewPosition(i);
+function characterMove() {
+    characters[0].nextPosition = getNewPosition();
 
     root.setProperty(`--yellow-sprite-y`, `-${yellowSprite[characters[0].direction]}px`);
 
-    getTransition(i);
-    changePosition(i);
+    getTransition();
+    changePosition();
 }
-function getNewPosition(i) {
+function getNewPosition() {
     if (characters[0].directionNew != undefined) {
         const newPosition = characters[0].position + positionChange[characters[0].directionNew];
         characters[0].direction = characters[0].directionNew;
@@ -115,7 +110,7 @@ function getNewPosition(i) {
     return characters[0].position + positionChange[characters[0].direction];
 }
 
-function getTransition(i) {
+function getTransition() {
     const transitionMove = {
         "ArrowUp": "Y(-20px)",
         "ArrowDown": "Y(20px)",
@@ -125,7 +120,7 @@ function getTransition(i) {
 
     characters[0].characterNode.style.transform = `translate${transitionMove[characters[0].direction]}`;
 }
-function changePosition(i) {
+function changePosition() {
     characters[0].characterNode.classList.add(`yellow-animation-move`);
         
     setTimeout(() => {
@@ -134,7 +129,7 @@ function changePosition(i) {
         characters[0].position = characters[0].nextPosition;
         characters[0].characterNode = elements[characters[0].position].children[0];
         characters[0].characterNode.classList.add(`yellow-visible`);
-        characterMove(i)
+        characterMove()
     }, 200)
     
 }
